@@ -1,0 +1,42 @@
+<html>
+<<head></head>
+
+	<body>
+		<ul id="first"></ul>
+		<script>
+			function ready() {
+				addMessage(firstList, "Page done loading.");
+			}
+			document.addEventListener("DOMContentLoaded", ready);
+
+			function addMessage(element, message) {
+				const messageElement = document.createElement("li");
+				messageElement.textContent = message;
+				element.appendChild(messageElement);
+			}
+			const firstList = document.getElementById("first");
+			addMessage(firstList, "Page is still loading");
+			console.log("second:" + document.getElementById("second"));
+		</script>
+		<ul id="second"></ul>
+		<script>
+			function printMove() {
+				const secondList = document.getElementById("second");
+				// addMessage was declared globally in script above which means
+				// all code loaded in this page can use it.
+				addMessage(secondList, "Event: mousemove");
+			}
+
+			function printClick() {
+				const secondList = document.getElementById("second");
+				addMessage(secondList, "Event: click");
+			}
+
+
+			document.body.addEventListener("click", printClick);
+			firstList.addEventListener("mousemove", printMove);
+			addMessage(firstList, "Page is still loading...");
+		</script>
+	</body>
+
+</html>

@@ -16,7 +16,6 @@ function ready() {
 }
 
 function clickImage() {
-	console.log('clicking image1');
 	if (g.image1.src.match('panda')) {
 		g.image1.src = 'images/polarBear.jpg';
 	} else {

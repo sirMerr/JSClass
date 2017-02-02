@@ -22,6 +22,7 @@ function d(element) {
 	return '5' + element;
 }
 
+// true and false become 1 and 0 for math
 function e(element) {
 	// 5[element]
 	console.log('5' + element);
@@ -34,4 +35,14 @@ function e(element) {
 	console.log(element / null);
 	console.log(element * null);
 	console.log(element * undefined);
+}
+
+var x = 100;
+
+function t() {
+	console.log(x);
+	if (x === 100) {
+		var x = 99;
+	}
+	console.log(x);
 }

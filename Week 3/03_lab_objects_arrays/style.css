@@ -1,0 +1,65 @@
+/*
+The following rule sets the padding and margin sizes for all elements and sides to zero and also forces the
+browser to include padding and border in its width or height calculations for all boxes (margins are still
+excluded from the calculation
+*/
+*{
+	margin: 0px;
+	padding: 0px;
+  box-sizing: border-box;
+}
+
+/*
+The following rule is required to fix the height issues when using percentages and the browser is not
+in quirks mode (ie: you have a valid doctype tag
+*/
+html, body {
+	height: 100%;
+}
+body {
+	min-height:100%;
+}
+
+header, footer {
+  text-align:center;
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+header{
+	height: 20%;
+	background-color: yellow;
+}
+
+nav{
+	height: 10%;
+	background-color: blue;
+}
+
+footer{
+	height: 10%;
+	clear: both;
+	background-color: bisque;
+}
+
+img{
+	margin-top: 5%;
+}
+
+
+section {
+	background-color: orange;
+	height: 60%;
+	border: 1px solid black;
+}
+
+.images {
+	width: 50%;
+	float: left;
+	background-color: lightblue;
+	text-align: center;
+}
+button {
+	margin: 20px;
+	padding: 10px;
+}

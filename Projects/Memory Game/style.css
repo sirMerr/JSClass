@@ -1,0 +1,42 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  margin: auto;
+  padding: 20px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+}
+
+nav {
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  width: 100px;
+  height: 30px;
+}
+.tiles {
+  padding: 0;
+  margin: 0;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  float: left;
+  text-align: center;
+  width: 98px;
+  height: 98px;
+}
+
+.pane {
+  margin: 40px auto;
+  width: 400px;
+  height: 400px;
+  background-image: url('images/background.jpg');
+  background-size: cover;
+}

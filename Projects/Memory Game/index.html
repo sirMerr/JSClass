@@ -1,36 +1,51 @@
+<!--
+Assignment #1 Part 1
+Written by: Tiffany Le-Nguyen
+For 420-423-DW Internet Applications II – Winter 2017
+-->
 <!doctype html>
 <html>
+<!-- Head -->
 
 <head>
-    <script src="index.js"></script>
-    <link rel="stylesheet" href="style.css">
+	<title>Memory Game</title>
+	<script src="index.js"></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <header>Memory Game</header>
-    <nav>
-        <button class="Start">Start</button>
-        <button class="cheat">Cheat</button>
-        <button class="reveal">Reveal</button>
-    </nav>
-    <div class="pane">
-        <div class="tiles" id="1">A</div>
-        <div class="tiles" id="2">B</div>
-        <div class="tiles" id="3">C</div>
-        <div class="tiles" id="4">D</div>
-        <div class="tiles" id="5">E</div>
-        <div class="tiles" id="6">F</div>
-        <div class="tiles" id="7">G</div>
-        <div class="tiles" id="8">H</div>
-        <div class="tiles" id="9">I</div>
-        <div class="tiles" id="10">J</div>
-        <div class="tiles" id="11">K</div>
-        <div class="tiles" id="12">L</div>
-        <div class="tiles" id="13">M</div>
-        <div class="tiles" id="14">N</div>
-        <div class="tiles" id="15">O</div>
-        <div class="tiles" id="16">P</div>
-    </div>
+	<!-- Header -->
+	<header>Memory Game</header>
+	<!-- Navigation -->
+	<nav>
+		<button class="Start">Start</button>
+		<button class="cheat">Cheat</button>
+		<button class="stop">Stop</button>
+	</nav>
+	<!-- Instructions -->
+	<div class="instructions">
+		<p> Click on or press on the corresponding letter of two tiles to turn them face up. If they are of the same then you win the pair and play again until all tiles are turned. If they are not the same, they are turned face down again. <br>Click on the Reset
+			button to reset the game or the End button if you are unable to solve a 4x4 matching game.<br>The cheat button will allow you to see the second layer of the board.</p>
+		<div>
+			<!-- Layer -->
+			<div class="pane">
+				<div class="tiles 1">A<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 2">B<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 3">C<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 4">D<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 5">E<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 6">F<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 7">G<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 8">H<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 9">I<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 10">J<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 11">K<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 12">L<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 13">M<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 14">N<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 15">O<img src="Images/pokemon.gif" alt="cover"/></div>
+				<div class="tiles 16">P<img src="Images/pokemon.gif" alt="cover"/></div>
+			</div>
 </body>
 
 </html>

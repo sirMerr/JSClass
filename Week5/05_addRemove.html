@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Add and Remove Event Listeners</title>
+  <script>
+  "use strict";
+  /* Print a message two seconds after element is clicked, but if the
+  element is clicked more than once in quick succession (less than two seconds),
+  print the message only once. Don't schedule another message until after previous
+  is printed */
+  function printEvent(e) {
+    //e.target.removeEventListener("click", printEvent);
+    setTimeout(function () {
+      console.log("The event came from " + e.target.id);
+      //e.target.addEventListener("click", printEvent);
+    }, 2000);
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    ["box", "wordA", "wordB"].forEach(function(i) {
+      document.getElementById(i).addEventListener("click", printEvent);
+    });
+  });
+  </script>
+</head>
+<body>
+<!-- Don't use inline styles and internal scripts. I'm just doing that Here
+to keep everything in the same file -->
+<div id="box" style="border:solid 1px; width:200px; height:200px"></div>
+<p>Open the js console to see log messages, then click <a id="wordA" href="#">here</a> or
+<a id="wordB" href="#">here</a></p>
+</body>
+</html>

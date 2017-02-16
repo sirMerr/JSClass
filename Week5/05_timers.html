@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Timers</title>
+  <script>
+  "use strict";
+  function printEvent(e) {
+    // print message 1 second after click event was fired
+    setTimeout(function () {
+      console.log("The event came from " + e.target.id);
+    }, 1000);
+  };
+
+  function repeat() {
+    counter++;
+    if (counter > 9) {
+      // stop the repetition
+      clearInterval(myTimer);
+    }
+    console.log("Hello " + counter);
+  }
+
+  var counter = 0;
+  // start printing Hello once every second
+  var myTimer = setInterval(repeat, 1000);
+
+  function init() {
+    document.addEventListener("click", printEvent);
+    // print a message 5 seconds from now
+    var anotherTimer = setTimeout(function () {
+      console.log("This is from another timer.");
+    }, 5000);
+    // timers are not blocking -- execution continues right away
+    console.log("When does this appear?");
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+  </script>
+</head>
+<body>
+<p>Open the js console and call the provided functions to see what they do.</p>
+<p>Click <a id="buttonA" href="#">me</a></p>
+</body>
+</html>

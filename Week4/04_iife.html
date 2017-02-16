@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Immediately Invoked Function Expression</title>
+  <script>
+  "use strict";
+  (function () {
+    function printEvent(e) {
+      console.log("The event came from " + e.target.id);
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // initialization
+      var words = document.getElementsByTagName("a");
+      for (var i = 0; i < words.length; i++) {
+        words[i].addEventListener("click", printEvent);
+      }
+    });
+  })();
+  // if I try to call printEvent out here, I get an error because it's not
+  // available in global scope. All my idenfiers are in the immediately invoked
+  // function expression. I'm using the iife to isolate my code from global scope.
+  </script>
+</head>
+<body>
+<p>Open the js console to see log messages, then click <a id="wordA" href="#">here</a> or
+<a id="wordB" href="#">here</a></p>
+</body>
+</html>

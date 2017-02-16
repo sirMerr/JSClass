@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Review</title>
+  <script>
+  "use strict";
+
+  /* Write a click event handler that logs the current position of
+  the mouse in the console. Attach the event handler to the whole window
+  for the dblclick event. */
+  function showMousePosition(event) {
+    console.log("Mouse is at (" + event.pageX + "," + event.pageY + ")");
+  }
+
+  /* Write a function that returns an event handler that either logs a
+  message in the console or displays it as a new paragraph in the body.
+  The message should consist of a prefix string, and event property name
+  and the event property separate by a colon and space. For example
+  makePrintingHandler(false, "The event is", "type") will produce
+  paragraphs with "The event is: type : click" when used as a click handler */
+
+  function makePrintingHandler(isLog, prefix, property) {
+    function getMessage(obj) {
+      return [prefix, property, obj[property]].join(": ");
+    }
+    if (isLog) {
+      return function (e) {
+        console.log(getMessage(e));
+      };
+    } else {
+      return function (e) {
+        var paragraph = document.createElement("p");
+        paragraph.textContent = getMessage(e);
+        document.body.appendChild(paragraph);
+      };
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+      window.addEventListener("click",
+          makePrintingHandler(true, "Mouse position", "pageX"));
+      document.getElementById("box").addEventListener("click",
+          makePrintingHandler(false, "Event is from", "target"));
+      window.addEventListener("dblclick", showMousePosition);
+  });
+  </script>
+</head>
+<body>
+<!-- Don't use inline styles and internal scripts. I'm just doing that Here
+to keep everything in the same file -->
+<div id="box" style="border:solid 1px; width:200px; height:200px"></div>
+<p>Open the js console to see log messages, then click <a id="wordA" href="#">here</a> or
+<a id="wordB" href="#">here</a></p>
+</body>
+</html>

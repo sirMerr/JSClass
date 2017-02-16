@@ -35,7 +35,7 @@ button {
 
 img {
 	width: 98px;
-  height: 78px;
+  height: 98px;
 }
 .tiles {
   padding: 0;
@@ -50,17 +50,48 @@ img {
 }
 
 .pane {
+	position: relative;
   margin: 40px auto;
   width: 400px;
   height: 400px;
-  background-image: url('images/background.jpg');
-  background-size: 400px 400px;
-  background-repeat: no-repeat;
+}
+
+.layer2 {
+	position: absolute;
+  width: 400px;
+  height: 400px;
+	z-index: -1;
+	background-image: url('images/background.jpg');
+	background-repeat: no-repeat;
+}
+
+.layer2 img {
+	padding: 0;
+  margin: 0;
+  border-style: solid;
+  border-color: blue;
+  border-width: 1px;
+  float: left;
+  text-align: center;
+  width: 98px;
+  height: 98px;
+	background-color: pink;
 }
 
 p {
 	font-family: monospace,sans-serif;
 	background-color: lightblue;
 	padding: 6px;
-	margin: 20px;
+	margin: 30px;
+	width: 20%;
+	float: left;
+}
+
+h1 {
+	margin: 0;
+	font-size: 20px;
+	position: absolute;
+	color: blue;
+	width: 98px;
+  height: 98px;
 }

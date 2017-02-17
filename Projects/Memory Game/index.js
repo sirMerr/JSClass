@@ -56,7 +56,7 @@ function cheat() {
  */
 function openTile(e) {
 	const letter = e.srcElement.innerHTML;
-	// e.srcElement.parentElement.style.visibility = 'hidden';
+	//e.srcElement.parentElement.style.visibility = 'hidden';
 
 	if (g.holderImage === '') {
 		console.log('hi!');

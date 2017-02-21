@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Propagation</title>
+  <style>
+    * {border: solid 1px;}
+  </style>
+</head>
+<body>
+<p>A paragraph with a
+  <button>button</button> and a <a href="#">link</a>.
+</p>
+
+<script>
+"use strict";
+var para = document.querySelector("p");
+var button = document.querySelector("button");
+var link = document.querySelector("a");
+
+function getPhase(id) {
+  var phases = [
+    "no event",
+    "capture phase",
+    "at target",
+    "bubbling phase"
+  ];
+  return phases[id];
+}
+
+function handler(e) {
+  console.log("This handler is attached to " + e.currentTarget.nodeName);
+  console.log("    The source of the event: " + e.target.nodeName);
+  console.log("    Event phase: " + getPhase(e.eventPhase));
+  // if you shift-click on the target, the event
+  // doesn't bubble up to the parent element(s).
+  if (e.shiftKey) {
+    e.stopPropagation();
+  }
+}
+
+// child elements
+[link, button].forEach(function (el) {
+  el.addEventListener("mousedown", handler);
+});
+
+// event capturing and bubbling affects parent elements
+[para, document.body].forEach(function (el) {
+  // demonstrate event bubbling
+  // same as el.addEventListener("mousedown", handler, false);
+  // which means that event capturing is off by default
+  el.addEventListener("mousedown", handler);
+  // demonstrate event capturing
+  el.addEventListener("mousedown", handler, true);
+});
+
+</script>
+</body>
+</html>

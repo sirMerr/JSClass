@@ -226,8 +226,9 @@ function randomizeArray(array) {
 function cacheImages() {
 	const array = [];
 	const image = new Image();
+	const imagesArray = g.images.concat(g.backgroundImages);
 
-	g.images.forEach(element => {
+	imagesArray.forEach(element => {
 		image.src = element;
 		array.push(image);
 	});
@@ -240,8 +241,10 @@ function cacheImages() {
  * @param  {Event}   e
  */
 function displayKey(e) {
+	// cross-compatible
 	const evt = e || window.event;
 	const charCode = evt.which || evt.keyCode;
+
 	const target = document.querySelector(`.tile${charCode - 96} h1`);
 
 	if (target !== null && charCode < 113 && target.style.visibility !== 'hidden') {

@@ -34,8 +34,8 @@ button {
 }
 
 img {
-	width: 98px;
-  height: 98px;
+	width: 108px;
+  height: 108px;
 }
 .tiles {
   padding: 0;
@@ -45,25 +45,28 @@ img {
   border-width: 1px;
   float: left;
   text-align: center;
-  width: 98px;
-  height: 98px;
+  width: 108px;
+  height: 108px;
 }
 
 .pane {
 	position: relative;
   margin: 40px auto;
-  width: 400px;
-  height: 400px;
+  width: 440px;
+  height: 440px;
 }
 
 .layer2 {
 	position: absolute;
-  width: 400px;
-  height: 400px;
+  width: 440px;
+  height: 440px;
 	z-index: -1;
-	background-size: cover;
+	background-size: 440px 440px;
 	background-image: url('images/background.jpg');
 	background-repeat: no-repeat;
+	border-width: 1px;
+	border-style: solid;
+	border-color: blue;
 }
 
 .layer2 img {
@@ -74,8 +77,8 @@ img {
   border-width: 1px;
   float: left;
   text-align: center;
-  width: 98px;
-  height: 98px;
+  width: 108px;
+  height: 108px;
 	background-color: pink;
 }
 
@@ -94,6 +97,6 @@ h1 {
 	font-size: 20px;
 	position: absolute;
 	color: blue;
-	width: 98px;
-  height: 98px;
+	width: 108px;
+  height: 108px;
 }

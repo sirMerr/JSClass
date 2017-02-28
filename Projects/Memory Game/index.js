@@ -96,6 +96,7 @@ function cheat() {
  * @param  {Event} e  event object
  */
 function openTile(e) {
+	const evt = e || window.event;
 	g.clicks++;
 
 	// makes sure that tiles do not open if
@@ -106,10 +107,10 @@ function openTile(e) {
 	}
 
 	// h1 tag corresponding to event
-	const letter = e.srcElement.innerHTML;
+	const letter = evt.srcElement.innerHTML;
 
 	// hides the cover clicked
-	e.srcElement.parentElement.style.visibility = 'hidden';
+	evt.srcElement.parentElement.style.visibility = 'hidden';
 
 	// find image corresponding to letter
 	const img = findImage(letter);
@@ -117,13 +118,13 @@ function openTile(e) {
 	if (g.holderImage === '') {
 		// if this is the first click (no holders), set them
 		g.holderImage = img;
-		g.holderCover = e.srcElement.parentElement;
+		g.holderCover = evt.srcElement.parentElement;
 	} else if (g.holderImage.src === img.src) {
 		// if there is a holder image and it matches, hide the matches
 		setVisibility(g.holderImage, img);
 	} else {
 		// if no matches, unhide the two covers and two layer2s
-		setVisibility(g.holderCover, e.srcElement.parentElement);
+		setVisibility(g.holderCover, evt.srcElement.parentElement);
 	}
 }
 

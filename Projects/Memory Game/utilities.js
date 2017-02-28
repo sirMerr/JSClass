@@ -1,6 +1,7 @@
 /**
  * Assignment #1 Part 2 -- Script 8.1 - utilities.js
  * @author Maja Frydrychowicz & Tiffany Le-Nguyen
+ * {@link https://sirmerr.github.io/JSClass/Projects/Memory%20Game/|Github Pages}
  * For 420-423-DW Internet Applications II – Winter 2017
  *
  * This script defines an object that has some utilitarian functions.
@@ -21,16 +22,6 @@ const U = {
 		} else if (obj && obj.attachEvent) { // Older IE
 			obj.attachEvent('on' + type, fn);
 		}
-	}, // End of addEvent() function.
-
-    // Function for removing event listeners:
-	removeEvent(obj, type, fn) {
-		'use strict';
-		if (obj && obj.removeEventListener) { // W3C
-			obj.removeEventListener(type, fn, false);
-		} else if (obj && obj.detachEvent) { // Older IE
-			obj.detachEvent('on' + type, fn);
-		}
-	} // End of removeEvent() function.
+	}
 
 }; // End of U declaration.

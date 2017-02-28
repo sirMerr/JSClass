@@ -1,6 +1,7 @@
 /**
  * Assignment #1 Part 2
  * @author Tiffany Le-Nguyen
+ * {@link https://sirmerr.github.io/JSClass/Projects/Memory%20Game/|Github Pages}
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
@@ -35,6 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	cacheImages();
 	defaultTiles();
 
+	// add event listener to each tiles and
+	// set cover images
+	for (let i = 0; i < g.tiles.length; i++) {
+		U.addEvent(g.tiles[i], 'click', openTile);
+		g.coverImages[i].src = 'images/pokemon.gif';
+	}
+
 	// add event listeners
 	U.addEvent(g.startButton, 'click', start);
 	U.addEvent(g.stopButton, 'click', stop);
@@ -48,10 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function start() {
 	defaultTiles();
+
+	// makes layer1 and 2 visible
 	for (let i = 0; i < g.tiles.length; i++) {
 		g.tiles[i].style.visibility = 'visible';
 		g.layer2Images[i].style.visibility = 'visible';
-		// console.log(g.tiles[i]);
 	}
 }
 /**
@@ -59,10 +68,10 @@ function start() {
  * @method stop
  */
 function stop() {
+	// hides layer1 and 2
 	for (let i = 0; i < g.tiles.length; i++) {
 		g.tiles[i].style.visibility = 'hidden';
 		g.layer2Images[i].style.visibility = 'hidden';
-		// console.log(g.tiles[i]);
 	}
 }
 
@@ -71,7 +80,7 @@ function stop() {
  * @method cheat
  */
 function cheat() {
-	// console.log('Cheating');
+	// changes opacity for each image
 	g.coverImages.forEach(element => {
 		if (element.style.opacity === '0.2') {
 			element.style.opacity = 1;
@@ -88,23 +97,32 @@ function cheat() {
  */
 function openTile(e) {
 	g.clicks++;
+
+	// makes sure that tiles do not open if
+	// clicking on more than two
 	if (g.clicks > 2) {
 		g.clicks--;
 		return;
 	}
-	// console.log(e.srcElement);
+
+	// h1 tag corresponding to event
 	const letter = e.srcElement.innerHTML;
+
+	// hides the cover clicked
 	e.srcElement.parentElement.style.visibility = 'hidden';
+
+	// find image corresponding to letter
 	const img = findImage(letter);
+
 	if (g.holderImage === '') {
-		// console.log('New holders');
+		// if this is the first click (no holders), set them
 		g.holderImage = img;
 		g.holderCover = e.srcElement.parentElement;
 	} else if (g.holderImage.src === img.src) {
-		// console.log('It\'s a match!');
+		// if there is a holder image and it matches, hide the matches
 		setVisibility(g.holderImage, img);
 	} else {
-		// console.log('Not a match');
+		// if no matches, unhide the two covers and two layer2s
 		setVisibility(g.holderCover, e.srcElement.parentElement);
 	}
 }
@@ -117,12 +135,14 @@ function openTile(e) {
  * @param  {Image}      img2
  */
 function setVisibility(img1, img2) {
+	// after 1000 ms, hide or unhide the images
 	window.setTimeout(() => {
 		img1.style.visibility = img1 !== '' && img1.style.visibility === 'hidden' ? 'visible' : 'hidden';
 		img2.style.visibility = img2 !== '' && img2.style.visibility === 'hidden' ? 'visible' : 'hidden';
 		g.clicks -= 2;
 	}, 1000);
 
+	// resets holders
 	g.holderImage = '';
 	g.holderCover = '';
 }
@@ -134,8 +154,6 @@ function setVisibility(img1, img2) {
  */
 function findImage(letter) {
 	for (let i = 0; i < g.layer2Images.length; i++) {
-		// console.log(letter);
-		// console.log(g.layer2Images[i].classList);
 		if (g.layer2Images[i].classList.contains(letter)) {
 			return g.layer2Images[i];
 		}
@@ -148,18 +166,19 @@ function findImage(letter) {
  * @method defaultTiles
  */
 function defaultTiles() {
+	// sets default clicks to 0
 	g.clicks = 0;
 	// randomize image array
 	g.images = randomizeArray(g.images);
 
-	for (let i = 0; i < g.tiles.length; i++) {
-		g.tiles[i].addEventListener('click', openTile);
-		g.coverImages[i].src = 'images/pokemon.gif';
-		g.layer2Images[i].src = g.images[i];
-	}
+	g.layer2Images.forEach((element, incrementor) => {
+		element.src = g.images[incrementor];
+	});
 
+	// change the background
 	g.layer2.style.backgroundImage = 'url(' + getNextBg() + ')';
 
+	// resets coverImages' elements' opacity to 1
 	g.coverImages.forEach(element => {
 		if (element.style.opacity !== '1') {
 			element.style.opacity = 1;
@@ -170,25 +189,24 @@ function defaultTiles() {
 /**
  * Gets next background from g.backgroundImages array
  * @method getNextBg
- * @return {String}  image link from ./images
+ * @return {String}  image url from ./images
  */
 function getNextBg() {
 	if (g.holderBg === g.backgroundImages.length - 1) {
+		// if holderBg is max, reset it to 0
 		g.holderBg = 0;
 	} else {
 		g.holderBg++;
 	}
-	// console.log(g.holderBg);
 	return g.backgroundImages[g.holderBg];
 }
 
 /**
  * Sorting the array using Array.Prototype.sort.
  *
- * NOTE: As the requirement is to be cross-compatible,
- * I decided to use this sort because we are randomizing it with
+ * NOTE: I decided to use this sort because we are randomizing it with
  * the custom comparison function, which I felt removed the non-stability
- * issue of browsers that use Array.Prototype.sort. differently.
+ * issue of browsers that use Array.Prototype.sort differently.
  * @method randomizeArray
  * @param  {Array}       array	array to shuffle
  * @return {Array}             	randomized array
@@ -198,10 +216,6 @@ function randomizeArray(array) {
 		// 0.7 - [0, 1)
 		return 0.7 - Math.random();
 	});
-
-	// array.forEach(element => {
-	// 	console.log(element);
-	// })
 	return array;
 }
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Stop Propagation</title>
+  <style>
+    * {border: solid 1px; padding: 5px; margin: 5px;}
+    body, html, #wrapper { height: 80%;}
+    div {
+      width:100px;
+      height: 100px;
+      float:left;
+      text-align:center;
+      font-size: 2em;
+      font-style: sans-serif;
+      background-color:white;
+    }
+  </style>
+</head>
+<body>
+<section id="wrapper"></section>
+<script>
+"use strict";
+
+function changeBackground(e) {
+  var colorValue = Math.floor(255 * (e.pageX / document.body.clientWidth));
+  console.log("colorValue: " + colorValue);
+  document.body.style.backgroundColor =
+    "rgb(" + [colorValue, colorValue, colorValue].join(",") + ")";
+}
+
+function increment(e) {
+  // e.stopPropagation();
+  if (e.target.id !== "wrapper") {
+    counters[e.target.id] += 1;
+    e.target.textContent = counters[e.target.id];
+  }
+}
+
+var wrapper = document.getElementById("wrapper");
+var counters = {};
+for(var i = 0; i < 10; i++) {
+  var div = document.createElement("div");
+  div.id = "box" + i;
+  wrapper.appendChild(div);
+  counters[div.id] = 0;
+}
+
+wrapper.addEventListener("click", increment);
+document.body.addEventListener("click", changeBackground);
+
+</script>
+</body>
+</html>

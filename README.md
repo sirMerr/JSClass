@@ -7,4 +7,6 @@ This is a full course on JavaScript for programmers and beginners. It is intende
 4. Introduction to design concepts of a Web site
 
 There are always summary notes made in crude Markdown as well as pdf versions with more complete details. To see html/css/js
-files in action, you can go to 
+files in action, you can specify the path such as:
+
+https://sirmerr.github.io/JSClass/[Weekx]/[filename]

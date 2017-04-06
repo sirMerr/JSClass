@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Demo of Working with XML and JSON</title>
+  <style>
+    * {padding: 5px; margin: 5px;}
+    body, html, #wrapper { height: 80%;}
+    .error { border-color:red;}
+  </style>
+</head>
+<body>
+<!-- best-practice note: an input should have a label -->
+<p><input type="text" id="query" name="query"
+  placeholder="Enter a movie title"></p>
+<p><button type="button" id="searchButton">Search</button>
+  <span id="message"></span></p>
+<p id="result"></p>
+<script>
+"use strict";
+
+var g = {
+  baseURL: "http://www.omdbapi.com/"
+};
+
+function display(text) {
+  if (!text) {
+    return;
+  }
+  // clear the result area
+  if (g.resultArea.textContent) {
+    g.resultArea.textContent = "";
+  }
+  // remove any previous timeout
+  if (g.displayTimeout !== undefined) {
+    clearTimeout(g.displayTimeout);
+  }
+  g.messageEl.textContent = text;
+  g.displayTimeout = setTimeout(function () {
+    g.messageEl.textContent = "";
+  }, 10000);
+}
+
+function search(e) {
+  // note: think about why we don't need preventDefault
+  if (!g.queryField.value) {
+    g.queryField.className = "error";
+    display("A search query is required.");
+    return;
+  }
+  requestMovie(g.baseURL + "?" +
+      buildQuery(g.queryField.value, "xml")
+  );
+  g.queryField.value = "";
+}
+
+function displayMovie(title, year, plot) {
+  g.resultArea.textContent = title + " (" + year + "): " +
+      plot;
+}
+
+
+
+// function designed based on what we expect to
+// receive from the API at g.baseURL
+// In particular: we expect a JSON string
+// that represents one movie or something like
+// {"Response":"False","Error":"Movie not found!"}
+function processJSON(text) {
+  console.log(text);
+  try {
+    var movieData = JSON.parse(text);
+    // The server happens to give the string "True" instead
+    // of the value `true`. Servers don't necessarily
+    // follow best-practices
+    if (movieData.Response === "True") {
+      displayMovie(
+        movieData.Title,
+        movieData.Year,
+        movieData.Plot
+      );
+    } else {
+      display(movieData.Error || "Movie not found.");
+    }
+  } catch (error) {
+    display("Hmm, the server responded with data " +
+        "we can't process.");
+  }
+}
+
+function processXML(xmlDoc) {
+  if (xmlDoc.documentElement.getAttribute("response") === "True") {
+    var movie = xmlDoc.querySelector("movie");
+    displayMovie(movie.getAttribute("title"),
+        movie.getAttribute("year"),
+        movie.getAttribute("plot"),
+    );
+  } else {
+    var error = xmlDoc.querySelector("error");
+    display(error.childNodes[0].nodeValue || "Movie not found.");
+  }
+}
+
+function processResponse(request) {
+  if (request.responseXML) {
+    processXML(request.responseXML);
+  } else {
+    processJSON(request.responseText);
+  }
+}
+
+function requestMovie(url) {
+  var r = new XMLHttpRequest();
+  r.open("GET", url, true);
+  r.addEventListener("load", function() {
+    if (r.status >= 200 && r.status < 300 || r.status == 304) {
+      processResponse(r);
+    } else if (r.status == 404) {
+      display("Sorry, we couldn't find anything.");
+    } else if (r.status >= 400) {
+      display("Uhoh, there was an error with the server.");
+    }
+  });
+  r.addEventListener("error", function() {
+    display("Sorry, something went wrong when sending your query.");
+  })
+  r.send(null);
+}
+
+// breaking our solution into small, isolated functions
+// make it easier to test as we write, easier debugging
+function buildQuery(title, type){
+  if (type === undefined) {
+    type = "json";
+  }
+  var params = [];
+  params.push("r=" + type);
+  params.push("t=\"" + encodeURIComponent(title) + "\"");
+  return params.join("&");
+}
+
+function resetFieldStyle() {
+  if (g.queryField.className && g.queryField.value) {
+    g.queryField.className = undefined;
+  }
+}
+
+window.onload = function () {
+  g.queryField = document.getElementById("query");
+  g.resultArea = document.getElementById("result");
+  var button = document.getElementById("searchButton");
+  button.addEventListener("click", search);
+  g.queryField.addEventListener("keyup", resetFieldStyle);
+  g.messageEl = document.getElementById("message");
+};
+
+
+</script>
+</body>
+</html>

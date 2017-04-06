@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Encryption</title>
+  <style>
+    * {padding: 5px; margin: 5px;}
+    body, html, #wrapper { height: 80%;}
+  </style>
+</head>
+<body>
+<!-- best-practice note: an input should have a label -->
+<p><input type="text" id="clearText" name="clearText"
+  placeholder="Enter a message" required></p>
+<p><input type="number" value="10" min=1 max=25 id="key"
+  name="key" required></p>
+<p><button type="button" id="encrypt">Encrypt</button>
+  <span id="message"></span></p>
+<p id="original"></p>
+<p id="result"></p>
+<script>
+"use strict";
+
+var g = {
+  "notEnglishPhrase": /[^a-z!\.\-'"\s]/
+};
+
+function encryptMessage() {
+  var message = g.clearField.value.toLowerCase();
+  //validation
+  if (g.notEnglishPhrase.test(message)) {
+    console.log("Only letters, punctuation, whitespace allowed.");
+    return;
+  }
+  var key = parseInt(g.keyField.value);
+  if (key < 1 || key > 25) {
+    console.log("Key must be between 1 and 26");
+    return;
+  }
+  g.originalArea.textContent = message;
+  g.resultArea.textContent = shift(message, key);
+  g.clearField.value = "";
+}
+
+function shift(message, key) {
+  var alphabet = "abcdefghijklmnopqrstuvwxyz";
+  var cipherText = "";
+  for (var i = 0; i < message.length; i++) {
+    var c = message[i];
+    var position = alphabet.indexOf(c);
+    if (position !== -1) {
+      var newPosition = (position + key) % alphabet.length;
+      cipherText += alphabet[newPosition];
+    } else {
+      // leave as is
+      cipherText += c;
+    }
+  }
+  if (cipherText.length !== message.length) {
+    console.log("Something is horribly wrong");
+  }
+  return cipherText;
+}
+
+
+window.onload = function () {
+  g.clearField = document.getElementById("clearText");
+  g.keyField = document.getElementById("key");
+  g.resultArea = document.getElementById("result");
+  g.originalArea = document.getElementById("original");
+  var button = document.getElementById("encrypt");
+  button.addEventListener("click", encryptMessage);
+};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<LANGUAGES>
+	<ENGLISH>
+		<FIELD>First Name:</FIELD>
+		<FIELD>Last Name:</FIELD>
+		<FIELD>Address 1:</FIELD>
+		<FIELD>Address 2</FIELD>
+		<FIELD>City:</FIELD>
+		<FIELD>Province:</FIELD>
+		<FIELD>Postal Code:</FIELD>
+	</ENGLISH>
+	<FRANCAIS>
+		<FIELD>Prenom:</FIELD>
+		<FIELD>Nom de Famille:</FIELD>
+		<FIELD>Adresse 1:</FIELD>
+		<FIELD>Adresse 2:</FIELD>
+		<FIELD>Ville:</FIELD>
+		<FIELD>Province:</FIELD>
+		<FIELD>Code Postal:</FIELD>
+	</FRANCAIS>	
+	<ITALIANO>
+		<FIELD>Primo Nome:</FIELD>
+		<FIELD>Cognome:</FIELD>
+		<FIELD>Indirizzo 1:</FIELD>
+		<FIELD>Indirizzo 2:</FIELD>
+		<FIELD>Citta:</FIELD>
+		<FIELD>Province:</FIELD>
+		<FIELD>Codice Postale:</FIELD>
+	</ITALIANO>	
+</LANGUAGES>
+
+
+
+
+

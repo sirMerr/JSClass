@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Ajax Example</title>
+		<link rel="stylesheet" href="ajaxAddress.css">
+		<script src="ajaxAddress.js"></script>
+	</head>
+	<body>
+		<header>
+			<ul id="languageChoice">
+				<li class="rbord"><a name="deutsche" id="deutsche">Deutsch</a></li>
+				<li class="rbord"><a name="italiano" id="italiano">Italiano</a></li>
+				<li class="rbord"><a name="Francais" id="francais">Francais</a></li>
+				<li class="rbord"><a name="English" id="english">English</a></li>
+			</ul>
+		</header>
+		<form method="GET" action="#" id="add1">
+			<fieldset id="addressFields">
+  			<legend id="address"><span>Address</span></legend>
+        <p>
+        <label for="firstName"><span>First Name:</span></label>
+  			<input  type="text" id="firstName" size=10 name="firstName"
+            placeholder="enter your real name">
+        </p>
+        <p>
+        <label for="lastname"><span>Last Name:</span></label>
+  			<input id="lastName" size=15 name="lastName" >
+        </p>
+        <p>
+  			<label  for="address1"><span>Address 1:</span></label>
+  			<input id="address1" size=25 name="address1" >
+        </p>
+        <p>
+  			<label for="address2"><span>Address 2:</span></label>
+  			<input id="address2" size=25 name="address2">
+        </p>
+        <p>
+  			<label for="city"><span>City:</span></label>
+  			<input id="city" size=20 name="city" >
+        </p>
+        <p>
+  			<label for="province"><span>Province:</span></label>
+  			<input id="province" size=20 name="province" >
+        </p>
+        <p>
+  			<label for="postalCode"><span>Postal Code:</span></label>
+  			<input id="postalCode" size=7 name="postalCode" >
+			</fieldset>
+			<fieldset>
+				<legend id="buttons">Buttons</legend>
+					<input class="button" type="submit" value="Submit">
+					<input class="button" type="reset" value="Clear Form">
+					<input class="button" type="button" value="Click me and nothing happens">
+			</fieldset>
+		</form>
+
+	</body>
+</html>

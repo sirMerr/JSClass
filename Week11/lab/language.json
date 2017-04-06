@@ -1,0 +1,48 @@
+{
+  "languages": {
+    "italiano": {
+      "fields": [
+        "Primo Nome:",
+        "Cognome:",
+        "Indirizzo 1:",
+        "Indirizzo 2:",
+        "Citta:",
+        "Province:",
+        "Codice Postale:"
+      ]
+    },
+    "deutsch": {
+      "fields": [
+        "Vorname:",
+        "Nachname:",
+        "Adresse 1:",
+        "Adresse 2:",
+        "Stadt:",
+        "Provinz:",
+        "Postleitzahl:"
+      ]
+    },
+    "francais": {
+      "fields": [
+        "Prenom:",
+        "Nom de Famille:",
+        "Adresse 1:",
+        "Adresse 2:",
+        "Ville:",
+        "Province:",
+        "Code Postal:"
+      ]
+    },
+    "english": {
+      "fields": [
+        "First Name:",
+        "Last Name:",
+        "Address 1:",
+        "Address 2:",
+        "City:",
+        "Province:",
+        "Postal Code:"
+      ]
+    }
+  }
+}

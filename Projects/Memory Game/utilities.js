@@ -1,6 +1,6 @@
 /**
  * Assignment #1 Part 2 -- Script 8.1 - utilities.js
- * @author Maja Frydrychowicz & Tiffany Le-Nguyen
+ * @author Internet Applications II
  * {@link https://sirmerr.github.io/JSClass/Projects/Memory%20Game/|Github Pages}
  * For 420-423-DW Internet Applications II – Winter 2017
  *

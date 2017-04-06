@@ -1,7 +1,6 @@
 /**
  * Assignment #1 Part 2
  * @author Tiffany Le-Nguyen
- * {@link https://sirmerr.github.io/JSClass/Projects/Memory%20Game/|Github Pages}
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
@@ -10,7 +9,7 @@
 // global namespace
 const g = {};
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEvent('DOMContentLoaded', () => {
 	g.tiles = document.querySelectorAll('.tiles');
 	g.startButton = document.querySelector('.start');
 	g.stopButton = document.querySelector('.stop');
@@ -52,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Restarts the game
- * @method start
  */
 function start() {
 	defaultTiles();
@@ -65,7 +63,6 @@ function start() {
 }
 /**
  * Reveal background image. Ends the game
- * @method stop
  */
 function stop() {
 	// hides layer1 and 2
@@ -77,7 +74,6 @@ function stop() {
 
 /**
  * Shows layer 2 for an easy game.
- * @method cheat
  */
 function cheat() {
 	// changes opacity for each image
@@ -92,7 +88,6 @@ function cheat() {
 
 /**
  * Opens tile depending on click/keypress
- * @method openTile
  * @param  {Event} e  event object
  */
 function openTile(e) {
@@ -131,7 +126,6 @@ function openTile(e) {
 /**
  * Sets visibility of two images to hidden or visible
  * depending on what they are initially
- * @method setVisibility
  * @param  {Image}      img1
  * @param  {Image}      img2
  */
@@ -149,7 +143,6 @@ function setVisibility(img1, img2) {
 }
 /**
  * Finds image corresponding to letter
- * @method findImage
  * @param  {String}  letter  letter [a-z]
  * @return {Object}          corresponding element
  */
@@ -164,7 +157,6 @@ function findImage(letter) {
 
 /**
  * Sets default tiles to a background
- * @method defaultTiles
  */
 function defaultTiles() {
 	// sets default clicks to 0
@@ -189,7 +181,6 @@ function defaultTiles() {
 
 /**
  * Gets next background from g.backgroundImages array
- * @method getNextBg
  * @return {String}  image url from ./images
  */
 function getNextBg() {
@@ -208,7 +199,6 @@ function getNextBg() {
  * NOTE: I decided to use this sort because we are randomizing it with
  * the custom comparison function, which I felt removed the non-stability
  * issue of browsers that use Array.Prototype.sort differently.
- * @method randomizeArray
  * @param  {Array}       array	array to shuffle
  * @return {Array}             	randomized array
  */
@@ -222,7 +212,6 @@ function randomizeArray(array) {
 
 /**
  * Caches images
- * @method cacheImages
  */
 function cacheImages() {
 	const array = [];
@@ -238,7 +227,6 @@ function cacheImages() {
 /**
  * Triggers a click event on the cover tiles
  * if there is a corresponding keypress
- * @method displayKey
  * @param  {Event}   e
  */
 function displayKey(e) {

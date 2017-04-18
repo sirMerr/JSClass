@@ -9,7 +9,7 @@
 // global namespace
 const g = {};
 
-document.addEvent('DOMContentLoaded', () => {
+U.addEvent(document, 'DOMContentLoaded', () => {
 	g.tiles = document.querySelectorAll('.tiles');
 	g.startButton = document.querySelector('.start');
 	g.stopButton = document.querySelector('.stop');

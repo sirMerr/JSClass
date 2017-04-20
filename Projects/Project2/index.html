@@ -1,24 +1,47 @@
+<!--
+Assignment #2
+Written by: Tiffany Le-Nguyen
+For 420-423-DW Internet Applications II – Winter 2017
+-->
 <!DOCTYPE html>
 <html lang="en">
+<!-- Head -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="utilities.js"></script>
     <script src="index.js"></script>
+    <script src="http://ae6d5932.ngrok.io/vorlon.js"></script>
+    <noscript>
+        <div style="border: 1px solid; margin: 10px; padding: 10px">
+            <span style="color:red">Please enable JavaScript and refresh :)</span>
+        </div>
+    </noscript>
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
+
 <body>
+    <!-- Encryption area -->
     <div class="encryption">
         <div class="input">
            <textarea name="input" id="" cols="30" rows="10">hi</textarea> 
         </div>
-        <button>encrypt</button>
+        <div class="send">
+            <textarea name="key" id="" cols="1" rows="1">key</textarea>
+            <button>send</button>
+            <button>switch</button>
+        </div>
         <aside class="output">
             <textarea name="output" id="" cols="30" rows="10">bye</textarea>
         </aside>
     </div>
+    <div class="keys">
+        <nav>
+            <button class="emojisButton">Emojis</button>
+            <button class="weatherButton">Weather</button>
+        </nav>
         <table class="grid">
             <tbody class="emojiGrid">
                 <tr>
@@ -35,7 +58,26 @@
                     <td>9</td>   
                     <td>10</td>       
                 </tr>
+                <tr>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>17</td>
+                    <td>18</td>
+                    <td>19</td>
+                    <td>20</td>
+                </tr>
             </tbody>
         </table>
+        <nav class="arrows">
+            <button class="leftButton">←</button>
+            <button class="rightButton">→</button>
+        </nav>
+    </div>
 </body>
 </html>

@@ -7,6 +7,7 @@
  * Given by Maja Frydrychowicz to use, with minor change
  * to follow some prefered ESLint rules and removing unused code.
  */
+let modernBrowser = true;
 
 /**
  * IFFE utilities const
@@ -20,6 +21,7 @@ const U = {
 			obj.addEventListener(type, fn, false);
 		} else if (obj && obj.attachEvent) { // Older IE
 			obj.attachEvent('on' + type, fn);
+			modernBrowser = false;
 		}
 	}
 

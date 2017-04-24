@@ -4,11 +4,17 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-/* global U document */
+/* global U modernBrowser emojis asciiKeys document */
 const g = {};
 
 // NOTE: need better way to have the punctuation keys and numbers encrypted/decrypted
 // as of right now, it doesn't decrypt properly
+/**
+ * Encrypts using Caesar cypher which takes every character and moves it by
+ * a number (key)
+ * @param {String} message 
+ * @param {Number} key 
+ */
 function encryptMessage(message, key) {
     let output = '', character, code;
 
@@ -33,6 +39,11 @@ function encryptMessage(message, key) {
     console.log(output);
 }
 
+/**
+ * Decrypts an encoded message
+ * @param {String} message 
+ * @param {Number} key 
+ */
 function decryptMessage(message, key) {
     let output = '', code;
     for (let i = 0; i < message.length; i++) {
@@ -49,6 +60,10 @@ function decryptMessage(message, key) {
     console.log(output);
 }
 
+/**
+ * Runs wizard explaining the encryption if it's the user's
+ * first time.
+ */
 function runWizard() {
     const ref = localStorage.getItem('visit');
 
@@ -60,6 +75,14 @@ function runWizard() {
     }
 }
 
+/**
+ * NOTE: The api key should be in a separate config file. As everything is private
+ * it should be fine, but changing the key and putting it in a config after is required.
+ * 
+ * Gets the weather information from www.from openweathermap.org
+ * 
+ * @return {String} weather
+ */
 function getWeatherData() {
     var request = new XMLHttpRequest();
     const city = 'London';
@@ -70,9 +93,9 @@ function getWeatherData() {
             // standard 200 to 400 range from: https://httpstatuses.com/
             if (this.status >= 200 && this.status < 400) {
                 var data = JSON.parse(this.responseText);
-                console.log(data.weather[0].main);
+                return data.weather[0].main
             } else {
-            // Error :(
+                console.log('Error GET request')
             }
         }
     };
@@ -81,25 +104,134 @@ function getWeatherData() {
     request = null;
 }
 
-function populateGrid() {
+/**
+ * Populates grid in a 5x5 manner using either
+ * the emojis array or the asciiKeys array (keys.js)
+ * @param {Array} array  emojis or ascii array
+ */
+function populateGrid(array) {
+    for (let i = 0; i < 5; i++) {
+            const tr = document.createElement('tr');
+            for (let j = 0; j < 5; j++) {
+                const td = document.createElement('td');
+                td.innerHTML = array[g.counter];
+                g.emojiGrid.appendChild(tr);
+                tr.appendChild(td);
+                g.counter++;
+            }
+        }
+}
+/**
+ * Populates the grid depending on if the user
+ * uses an old browser or not. If they use a modern
+ * browser, use emojis. Otherwise, use ASCII keys
+ */
+function makeGrid() {
+    if (modernBrowser) {
+        populateGrid(emojis);
+    } else {
+        populateGrid(asciiKeys);
+    }
+}
+
+/**
+ * Repopulate the grid to an emoji page 
+ * prior to the current one.
+ */
+function leftClick() {
+    if (modernBrowser) {
+        if (g.counter <= 0) { g.counter = 75 };
+        g.gridNodes.forEach(element => {
+            element.childNodes.forEach(emoji => {
+                emoji.innerHTML = emojis[g.counter];
+                g.counter--;
+                console.log(g.counter);
+            })
+        })
+    }
+}
+
+/**
+ * Repopulate the grid to an emoji page 
+ * after the current one.
+ */
+function rightClick() {
+    if (modernBrowser) {
+        if (g.counter >= 75) { g.counter = 0 };
+
+        g.gridNodes.forEach(element => {
+            element.childNodes.forEach(emoji => {
+                emoji.innerHTML = emojis[g.counter];
+                g.counter++;
+                console.log(g.counter);
+            })
+        })
+    }
+}
+
+/**
+ * Show weather tab
+ */
+function weatherClick() {
+    if (g.weatherTextArea.style.visibility == 'hidden') {
+        g.weatherTextArea.style.visibility = 'visible';
+        g.weatherButton.style.backgroundColor = '#b8b8b8';
+        g.emojisButton.style.backgroundColor = '#f0f0f0';
+    }
+}
+
+/**
+ * Show emoji tab with grid
+ */
+function emojisClick() {
+    console.log(g.weatherTextArea.style.visibility);
+    if (g.weatherTextArea.style.visibility === '' || g.weatherTextArea.style.visibility === 'visible') {
+        g.weatherTextArea.style.visibility = 'hidden';
+        g.emojisButton.style.backgroundColor = '#b8b8b8';
+        g.weatherButton.style.backgroundColor = '#f0f0f0';
+    }
+}
+
+function sendClick() {
 
 }
-encryptMessage('abcZz12 a', 20);
-decryptMessage('uvwTtEF4u', 20);
 
+function switchClick() {
+
+}
 U.addEvent(document, 'DOMContentLoaded', () => {
     g.input = document.querySelector('.input');
     g.output = document.querySelector('.output');
     g.emojiGrid = document.querySelector('.emojiGrid');
+    g.rightButton = document.querySelector('.rightButton');
+    g.leftButton = document.querySelector('.leftButton');
+    g.weatherButton = document.querySelector('.weatherButton');
+    g.emojisButton = document.querySelector('.emojisButton');
+    g.sendButton = document.querySelector('.sendButton');
+    g.switchButton = document.querySelector('.switchButton');
+    g.weatherTextArea = document.querySelector('.weather');
+    g.gridNodes = g.emojiGrid.childNodes;
 
-    // NOTE: have a make grid function
-    // and populate it. Add event listeners
-    // to each pane
+
+    g.counter = 0;
+
+    //add event listeners
+    U.addEvent(g.leftButton, 'click', leftClick);
+    U.addEvent(g.rightButton, 'click', rightClick);
+    U.addEvent(g.weatherButton, 'click', weatherClick);
+    U.addEvent(g.emojisButton, 'click', emojisClick);
+    U.addEvent(g.sendButton, 'click', sendClick);
+    U.addEvent(g.switchButton, 'click', switchClick);
+
+    // factory settings
+    g.emojisButton.style.backgroundColor = '#b8b8b8';
+    g.weatherButton.style.backgroundColor = '#f0f0f0';
 
     // Add event listeners to buttons 
     // and have a function that will change the content
     // with the arrow buttons
-    console.log(g.emojiGrid);
+    // console.log(g.emojiGrid);
+    makeGrid();
 
     runWizard();
     //getWeatherData();

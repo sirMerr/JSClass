@@ -1,3 +1,14 @@
+/*
+ * Assignment #2
+ * @author Tiffany Le-Nguyen
+ * For 420-423-DW Internet Applications II – Winter 2017
+ */
+body {
+    background: url('background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .encryption {
     display: flex;
     flex-direction: row;
@@ -25,16 +36,36 @@
     margin: 30px;
 }
 
-.keys {
+.keysWrapper {
     display: flex;
-    flex-direction: column;
-    width: 50%;
-    margin: 0 auto;
+    justify-content: center;
+}
+.gridWrapper {
+    position: relative;
+}
+
+.keys {
+    font-size: 32px;
+}
+
+.weather {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+}
+
+.weather textarea {
+    width: 100%;
+    height: 100%;
 }
 
 .arrows {
     justify-content: space-between;
 }
+
 nav {
     display: flex;
 }
@@ -45,10 +76,34 @@ td {
     padding: 4px;
     text-align: center;
     vertical-align: middle;
-    width: 20px;
-    height: 20px;
 }
+
 table {
     border-collapse: collapse;
-    border-spacing: 0;
+    background-color: rgba(255,255,255,0.6);
+}
+
+header {
+  margin: auto;
+  padding: 20px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 40px;
+  font-family: monospace;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(230,174,143,0.2);
+}
+
+a {
+    font-size: 30px;
+    margin: 20px;
+    color: white;
+    font-family: monospace;
+}
+
+textarea {
+    resize: none;
+    font-size: 15px;
+    padding: 10px;
 }

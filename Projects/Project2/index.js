@@ -89,13 +89,14 @@ function getWeatherData() {
     request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&appid=b948605bb52e836030b831890f3e6232', true);
 
     request.onreadystatechange = function() {
+        let weatherData;
         if (this.readyState === 4) {
-            // standard 200 to 400 range from: https://httpstatuses.com/
             if (this.status >= 200 && this.status < 400) {
                 var data = JSON.parse(this.responseText);
-                return data.weather[0].main
+                weatherData = data.weather[0].main;
+                console.log(weatherData);
             } else {
-                console.log('Error GET request')
+                weatherData = 'Rain';
             }
         }
     };
@@ -173,23 +174,18 @@ function rightClick() {
  * Show weather tab
  */
 function weatherClick() {
-    if (g.weatherTextArea.style.visibility == 'hidden') {
-        g.weatherTextArea.style.visibility = 'visible';
-        g.weatherButton.style.backgroundColor = '#b8b8b8';
-        g.emojisButton.style.backgroundColor = '#f0f0f0';
-    }
+    g.weatherTextArea.style.visibility = 'visible';
+    g.weatherButton.style.backgroundColor = '#b8b8b8';
+    g.emojisButton.style.backgroundColor = '#f0f0f0';
 }
 
 /**
  * Show emoji tab with grid
  */
 function emojisClick() {
-    console.log(g.weatherTextArea.style.visibility);
-    if (g.weatherTextArea.style.visibility === '' || g.weatherTextArea.style.visibility === 'visible') {
-        g.weatherTextArea.style.visibility = 'hidden';
-        g.emojisButton.style.backgroundColor = '#b8b8b8';
-        g.weatherButton.style.backgroundColor = '#f0f0f0';
-    }
+    g.weatherTextArea.style.visibility = 'hidden';
+    g.emojisButton.style.backgroundColor = '#b8b8b8';
+    g.weatherButton.style.backgroundColor = '#f0f0f0';
 }
 
 function sendClick() {
@@ -222,18 +218,9 @@ U.addEvent(document, 'DOMContentLoaded', () => {
     U.addEvent(g.emojisButton, 'click', emojisClick);
     U.addEvent(g.sendButton, 'click', sendClick);
     U.addEvent(g.switchButton, 'click', switchClick);
-
-    // factory settings
-    g.emojisButton.style.backgroundColor = '#b8b8b8';
-    g.weatherButton.style.backgroundColor = '#f0f0f0';
-
-    // Add event listeners to buttons 
-    // and have a function that will change the content
-    // with the arrow buttons
-    // console.log(g.emojiGrid);
     makeGrid();
 
     runWizard();
-    //getWeatherData();
+    console.log(getWeatherData());
 });
 

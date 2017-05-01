@@ -23,6 +23,16 @@ const U = {
 			obj.attachEvent('on' + type, fn);
 			modernBrowser = false;
 		}
-	}
+	}, // Emd of addEvent() function
+	// Function for removing event listeners:
+	removeEvent(obj, type, fn) {
+		'use strict';
+		if (obj && obj.removeEventListener) { // W3C
+			obj.removeEventListener(type, fn, false);
+		} else if (obj && obj.detachEvent) { // Older IE
+			obj.detachEvent('on' + type, fn);
+		}
+	} // End of removeEvent() function.
+
 
 }; // End of U declaration.

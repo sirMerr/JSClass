@@ -18,22 +18,37 @@ const g = {};
 function encryptMessage(message, key) {
     let output = '', character, code;
 
-    
-    for (let i = 0; i < message.length; i++) {
-        character = message[i];
-
-        // get code if valid
-        if (character.match(/[a-zA-Z]/) || character.match(/[. 0-9!?,-]/)) {
-            code = message.charCodeAt(i);
-            // console.log(code);
-            if (code >= 65 && code <= 90) {
-                character = String.fromCharCode(((code - 65 + key) % 26) + 65);
-            } else if (code >= 97 && code <= 122) {
-                character = String.fromCharCode(((code - 97 + key) % 26) + 97);
-            } else {
-                character = String.fromCharCode(code + key);
+    if (modernBrowser) {
+        for (let i = 0; i < message.length; i++) {
+            character = message[i];
+            if (character.match(/[a-zA-Z]/) || character.match(/[. 0-9!?,-]/)) {
+                code = message.charCodeAt(i);
+                // normalize codes so that index 97 is 0, 65 is 25, etc.
+                if (code >= 65 && code <= 90) {
+                    code -= 40;
+                } else if (code >= 97 && code <= 122) {
+                    code -= 97;
+                }
+                console.log(emojis[code + key]);
             }
-            output += character;
+        }
+    } else {
+        for (let i = 0; i < message.length; i++) {
+            character = message[i];
+
+            // get code if valid
+            if (character.match(/[a-zA-Z]/) || character.match(/[. 0-9!?,-]/)) {
+                code = message.charCodeAt(i);
+                // console.log(code);
+                if (code >= 65 && code <= 90) {
+                    character = String.fromCharCode(((code - 65 + key) % 26) + 65);
+                } else if (code >= 97 && code <= 122) {
+                    character = String.fromCharCode(((code - 97 + key) % 26) + 97);
+                } else {
+                    character = String.fromCharCode(code + key);
+                }
+                output += character;
+            }
         }
     }
     console.log(output);
@@ -105,6 +120,15 @@ function getWeatherData() {
     request = null;
 }
 
+function chooseKey() {
+
+}
+
+function addGridListeners() {
+    g.gridNodes.forEach(element => {
+        U.addEvent(element, 'click', chooseKey);
+    })
+}
 /**
  * Populates grid in a 5x5 manner using either
  * the emojis array or the asciiKeys array (keys.js)
@@ -130,9 +154,12 @@ function populateGrid(array) {
 function makeGrid() {
     if (modernBrowser) {
         populateGrid(emojis);
+        g.key.value = '😀';
     } else {
         populateGrid(asciiKeys);
+        g.key.value = '1';
     }
+    addGridListeners();
 }
 
 /**
@@ -146,7 +173,6 @@ function leftClick() {
             element.childNodes.forEach(emoji => {
                 emoji.innerHTML = emojis[g.counter];
                 g.counter--;
-                console.log(g.counter);
             })
         })
     }
@@ -160,11 +186,11 @@ function rightClick() {
     if (modernBrowser) {
         if (g.counter >= 75) { g.counter = 0 };
 
+        // NOTE: on IE, the object doesn't support the method forEach
         g.gridNodes.forEach(element => {
             element.childNodes.forEach(emoji => {
                 emoji.innerHTML = emojis[g.counter];
                 g.counter++;
-                console.log(g.counter);
             })
         })
     }
@@ -188,16 +214,27 @@ function emojisClick() {
     g.weatherButton.style.backgroundColor = '#f0f0f0';
 }
 
-function sendClick() {
-
+function switchClick() {
+    if (g.encrypt) {
+        U.removeEvent(g.sendButton, 'click', encryptMessage);
+        U.addEvent(g.sendButton, 'click', decryptMessage);
+        g.sendButton.innerHTML = 'decrypt';
+        g.encrypt = false;
+    } else {
+        U.removeEvent(g.sendButton, 'click', decryptMessage);
+        U.addEvent(g.sendButton, 'click', encryptMessage);
+        g.sendButton.innerHTML = 'encrypt';
+        g.encrypt = true;
+    }
 }
 
-function switchClick() {
-
+function updateText(e) {
+    console.log(g.input.value);
 }
 U.addEvent(document, 'DOMContentLoaded', () => {
-    g.input = document.querySelector('.input');
-    g.output = document.querySelector('.output');
+    g.input = document.querySelector('.input textarea');
+    g.output = document.querySelector('.output textarea');
+    g.key = document.querySelector('.key');
     g.emojiGrid = document.querySelector('.emojiGrid');
     g.rightButton = document.querySelector('.rightButton');
     g.leftButton = document.querySelector('.leftButton');
@@ -207,6 +244,7 @@ U.addEvent(document, 'DOMContentLoaded', () => {
     g.switchButton = document.querySelector('.switchButton');
     g.weatherTextArea = document.querySelector('.weather');
     g.gridNodes = g.emojiGrid.childNodes;
+    g.encrypt = true;
 
 
     g.counter = 0;
@@ -216,11 +254,13 @@ U.addEvent(document, 'DOMContentLoaded', () => {
     U.addEvent(g.rightButton, 'click', rightClick);
     U.addEvent(g.weatherButton, 'click', weatherClick);
     U.addEvent(g.emojisButton, 'click', emojisClick);
-    U.addEvent(g.sendButton, 'click', sendClick);
+    U.addEvent(g.sendButton, 'click', encryptMessage);
     U.addEvent(g.switchButton, 'click', switchClick);
+    U.addEvent(g.input, 'keyup', updateText);
     makeGrid();
 
     runWizard();
-    console.log(getWeatherData());
+
+    encryptMessage('abcABC', 1);
 });
 

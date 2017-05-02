@@ -1,0 +1,22 @@
+body {
+    background: url('weather.png');
+}
+
+.panels {
+    margin: 90px auto;
+    width: 80%;
+    height: 450px;
+    background-color: white;
+    text-align: center;
+    padding: 40px;
+    box-shadow: 2px 2px 5px 2px #888888;
+    font-size: 30px;
+}
+button {
+    border-radius: 50%;
+    height: 15px;
+    margin: 10px;
+    border: 1px solid grey;
+    background-color: silver;
+    float: left;
+}

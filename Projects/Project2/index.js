@@ -4,7 +4,7 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-/* global U modernBrowser emojis asciiKeys document */
+/* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisToLettersObj*/
 const g = {};
 
 // NOTE: Need to fix
@@ -15,13 +15,23 @@ const g = {};
  * @param {Number} key 
  */
 function encryptMessage(message, key) {
-    let output = '', character, code;
+    let output = '', character, code, emoji;
 
     if (modernBrowser) {
         for (let i = 0; i < message.length; i++) {
             character = message[i];
             if (character.match(/[a-zA-Z]/) || character.match(/[. 0-9!?,-]/)) {
-                
+                code = message.charCodeAt(i);
+                // console.log(code);
+                if (code >= 65 && code <= 90) {
+                    character = String.fromCharCode(((code - 65 + key) % 26) + 65);
+                } else if (code >= 97 && code <= 122) {
+                    character = String.fromCharCode(((code - 97 + key) % 26) + 97);
+                } else {
+                    character = String.fromCharCode(code + key);
+                }
+                emoji = lettersToEmojiObj[character];
+                output += emoji;
             }
         }
     } else {
@@ -42,8 +52,8 @@ function encryptMessage(message, key) {
                 output += character;
             }
         }
-         console.log(output);
     }
+    g.output.value = output;
 }
 
 /**

@@ -7,8 +7,7 @@
 /* global U modernBrowser emojis asciiKeys document */
 const g = {};
 
-// NOTE: need better way to have the punctuation keys and numbers encrypted/decrypted
-// as of right now, it doesn't decrypt properly
+// NOTE: Need to fix
 /**
  * Encrypts using Caesar cypher which takes every character and moves it by
  * a number (key)
@@ -22,14 +21,7 @@ function encryptMessage(message, key) {
         for (let i = 0; i < message.length; i++) {
             character = message[i];
             if (character.match(/[a-zA-Z]/) || character.match(/[. 0-9!?,-]/)) {
-                code = message.charCodeAt(i);
-                // normalize codes so that index 97 is 0, 65 is 25, etc.
-                if (code >= 65 && code <= 90) {
-                    code -= 40;
-                } else if (code >= 97 && code <= 122) {
-                    code -= 97;
-                }
-                console.log(emojis[code + key]);
+                
             }
         }
     } else {
@@ -50,8 +42,8 @@ function encryptMessage(message, key) {
                 output += character;
             }
         }
+         console.log(output);
     }
-    console.log(output);
 }
 
 /**
@@ -120,14 +112,19 @@ function getWeatherData() {
     request = null;
 }
 
-function chooseKey() {
-
+/**
+ * Shows the key selected by the user in the textarea
+ * @param {Event} e 
+ */
+function chooseKey(e) {
+    const evt = e || window.event;
+    g.key.value = evt.target.innerHTML;
 }
 
 function addGridListeners() {
-    g.gridNodes.forEach(element => {
+    Array.from(g.gridNodes).forEach(element => {
         U.addEvent(element, 'click', chooseKey);
-    })
+    });
 }
 /**
  * Populates grid in a 5x5 manner using either
@@ -154,10 +151,8 @@ function populateGrid(array) {
 function makeGrid() {
     if (modernBrowser) {
         populateGrid(emojis);
-        g.key.value = '😀';
     } else {
         populateGrid(asciiKeys);
-        g.key.value = '1';
     }
     addGridListeners();
 }
@@ -169,8 +164,8 @@ function makeGrid() {
 function leftClick() {
     if (modernBrowser) {
         if (g.counter <= 0) { g.counter = 75 };
-        g.gridNodes.forEach(element => {
-            element.childNodes.forEach(emoji => {
+        Array.from(g.gridNodes).forEach(element => {
+            Array.from(element.childNodes).forEach(emoji => {
                 emoji.innerHTML = emojis[g.counter];
                 g.counter--;
             })
@@ -187,8 +182,8 @@ function rightClick() {
         if (g.counter >= 75) { g.counter = 0 };
 
         // NOTE: on IE, the object doesn't support the method forEach
-        g.gridNodes.forEach(element => {
-            element.childNodes.forEach(emoji => {
+        Array.from(g.gridNodes).forEach(element => {
+            Array.from(element.childNodes).forEach(emoji => {
                 emoji.innerHTML = emojis[g.counter];
                 g.counter++;
             })
@@ -228,8 +223,10 @@ function switchClick() {
     }
 }
 
-function updateText(e) {
-    console.log(g.input.value);
+function updateText() {
+    if (g.key.value !== '') {
+       g.output.value = ''; //NOTE: encrypt here
+    }
 }
 U.addEvent(document, 'DOMContentLoaded', () => {
     g.input = document.querySelector('.input textarea');
@@ -261,6 +258,5 @@ U.addEvent(document, 'DOMContentLoaded', () => {
 
     runWizard();
 
-    encryptMessage('abcABC', 1);
 });
 

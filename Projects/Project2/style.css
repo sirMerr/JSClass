@@ -25,6 +25,9 @@ body {
     flex-direction: column;
 }
 
+.output textarea {
+    background-color: white;
+}
 .grid {
     margin: 0 auto;
     width: 100%;
@@ -39,9 +42,22 @@ body {
 .keysWrapper {
     display: flex;
     justify-content: center;
+    /* emoji fonts, segoe ui and segoe ui emoji used for edge*/
+    font-family: "Apple Color Emoji", "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 .gridWrapper {
     position: relative;
+}
+
+.key {
+    font-size: 32px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    background-color: white;
+    /* emoji fonts, segoe ui and segoe ui emoji used for edge*/
+    font-family: "Apple Color Emoji", "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol";
+
 }
 
 .keys {
@@ -66,8 +82,23 @@ body {
     justify-content: space-between;
 }
 
+.emojisButton {
+    background-color: #b8b8b8;
+}
+
 nav {
     display: flex;
+}
+
+p {
+    font-size: 30px;
+    margin: 0 auto;
+    width: 80%;
+    padding: 20px;
+}
+
+p a {
+    margin: 0;
 }
 
 td {
@@ -76,6 +107,15 @@ td {
     padding: 4px;
     text-align: center;
     vertical-align: middle;
+    transition: transform 300ms ease-in-out;
+}
+
+td:hover {
+    transform: scale(1.2);
+}
+
+td:active {
+    background-color: blue;
 }
 
 table {
@@ -83,6 +123,9 @@ table {
     background-color: rgba(255,255,255,0.6);
 }
 
+table * {
+    cursor: pointer;
+}
 header {
   margin: auto;
   padding: 20px 0;

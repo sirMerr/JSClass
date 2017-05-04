@@ -1,3 +1,7 @@
+* {
+    /* Makes width and height take in account border c: */
+    box-sizing: border-box;
+}
 body {
     background: url('weather.png');
 }
@@ -11,7 +15,44 @@ body {
     padding: 40px;
     box-shadow: 2px 2px 5px 2px #888888;
     font-size: 30px;
+    position: relative;
 }
+
+.slideButtons {
+    position: absolute;
+    bottom: -40px;
+    right: 0;
+}
+p {
+
+}
+
+.inputExample, .outputExample {
+    width: 30%;
+    margin: 0 auto;
+    border: solid 1px grey;
+
+}
+
+.inputExample {
+    float: left;
+    color: red;
+}
+
+.outputExample {
+    float: right;
+    color: green;
+}
+
+.keyExample {
+    width: 100px;
+    height: 40px;
+}
+
+h2, h3 {
+    font-size: 20px;
+}
+
 button {
     border-radius: 50%;
     height: 15px;
@@ -19,4 +60,12 @@ button {
     border: 1px solid grey;
     background-color: silver;
     float: left;
+}
+
+button:focus {
+    outline: none;
+}
+
+button.active {
+    background-color: darkgrey;
 }

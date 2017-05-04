@@ -114,10 +114,6 @@ td:hover {
     transform: scale(1.2);
 }
 
-td:active {
-    background-color: blue;
-}
-
 table {
     border-collapse: collapse;
     background-color: rgba(255,255,255,0.6);

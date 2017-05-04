@@ -82,14 +82,19 @@ function decryptMessage(message, key) {
  * first time.
  */
 function runWizard() {
-    const ref = localStorage.getItem('visit');
-
-    // if this is the first visit, run the wizard
-    // and set visit value to true;
-    if (!ref) {
-        console.log('This is the wizard');
-        localStorage.setItem('visit', true);
+    if (!document.cookie) {
+        console.log('hi');
+        document.cookie = 'visit=true';
     }
+
+    // const ref = localStorage.getItem('visit');
+
+    // // if this is the first visit, run the wizard
+    // // and set visit value to true;
+    // if (!ref) {
+    //     console.log('This is the wizard');
+    //     localStorage.setItem('visit', true);
+    // }
 }
 
 /**
@@ -132,9 +137,12 @@ function chooseKey(e) {
 }
 
 function addGridListeners() {
-    Array.from(g.gridNodes).forEach(element => {
-        U.addEvent(element, 'click', chooseKey);
-    });
+    for (let i = 0; i < g.gridNodes.length; i++) {
+        U.addEvent(g.gridNodes[i], 'click', chooseKey);
+    }
+    // Array.from(g.gridNodes).forEach(element => {
+    //     U.addEvent(element, 'click', chooseKey);
+    // });
 }
 /**
  * Populates grid in a 5x5 manner using either
@@ -174,12 +182,19 @@ function makeGrid() {
 function leftClick() {
     if (modernBrowser) {
         if (g.counter <= 0) { g.counter = 75 };
-        Array.from(g.gridNodes).forEach(element => {
-            Array.from(element.childNodes).forEach(emoji => {
-                emoji.innerHTML = emojis[g.counter];
+
+        for (let i = 0; i < g.gridNodes.length; i++) {
+            for (let j = 0; j < g.gridNodes[i].childNodes.length; j++) {
+                g.gridNodes[i].childNodes[j].innerHTML = emojis[g.counter];
                 g.counter--;
-            })
-        })
+            }
+        }
+        // Array.from(g.gridNodes).forEach(element => {
+        //     Array.from(element.childNodes).forEach(emoji => {
+        //         emoji.innerHTML = emojis[g.counter];
+        //         g.counter--;
+        //     })
+        // })
     }
 }
 
@@ -191,13 +206,18 @@ function rightClick() {
     if (modernBrowser) {
         if (g.counter >= 75) { g.counter = 0 };
 
-        // NOTE: on IE, the object doesn't support the method forEach
-        Array.from(g.gridNodes).forEach(element => {
-            Array.from(element.childNodes).forEach(emoji => {
-                emoji.innerHTML = emojis[g.counter];
+        for (let i = 0; i < g.gridNodes.length; i++) {
+            for (let j = 0; j < g.gridNodes[i].childNodes.length; j++) {
+                g.gridNodes[i].childNodes[j].innerHTML = emojis[g.counter];
                 g.counter++;
-            })
-        })
+            }
+        }        
+        // Array.from(g.gridNodes).forEach(element => {
+        //     Array.from(element.childNodes).forEach(emoji => {
+        //         emoji.innerHTML = emojis[g.counter];
+        //         g.counter++;
+        //     })
+        // })
     }
 }
 
@@ -219,6 +239,9 @@ function emojisClick() {
     g.weatherButton.style.backgroundColor = '#f0f0f0';
 }
 
+/**
+ * Switches between encryption and decryption mode
+ */
 function switchClick() {
     if (g.encrypt) {
         U.removeEvent(g.sendButton, 'click', encryptMessage);
@@ -233,12 +256,18 @@ function switchClick() {
     }
 }
 
+/**
+ * Updates the output text based on
+ * what was typed in the input field
+ */
 function updateText() {
     if (g.key.value !== '') {
        g.output.value = ''; //NOTE: encrypt here
     }
 }
+
 U.addEvent(document, 'DOMContentLoaded', () => {
+    // variables for index.html
     g.input = document.querySelector('.input textarea');
     g.output = document.querySelector('.output textarea');
     g.key = document.querySelector('.key');
@@ -252,6 +281,8 @@ U.addEvent(document, 'DOMContentLoaded', () => {
     g.weatherTextArea = document.querySelector('.weather');
     g.gridNodes = g.emojiGrid.childNodes;
     g.encrypt = true;
+
+    //variables for wizard.html
 
 
     g.counter = 0;

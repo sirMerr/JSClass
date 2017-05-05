@@ -83,8 +83,8 @@ function decryptMessage(message, key) {
  */
 function runWizard() {
     if (!document.cookie) {
-        console.log('hi');
         document.cookie = 'visit=true';
+        window.location.href = "wizard.html";
     }
 
     // const ref = localStorage.getItem('visit');
@@ -282,14 +282,7 @@ U.addEvent(document, 'DOMContentLoaded', () => {
     g.gridNodes = g.emojiGrid.childNodes;
     g.encrypt = true;
 
-    //variables for wizard.html
-
-
     g.counter = 0;
-    g.panels = ['A Caesar Cypher shifts letters by a certain amount to form a new message',
-                'The key determines how much the shift will be. In this small app, you can '+
-                'choose an emoji (modern browsers) as a key.', 'Or you can shift according to the weather!',
-                'Try it out :)'];
 
     //add event listeners
     U.addEvent(g.leftButton, 'click', leftClick);

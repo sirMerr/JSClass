@@ -82,10 +82,11 @@ function decryptMessage(message, key) {
  * first time.
  */
 function runWizard() {
-    if (!document.cookie) {
+        if (true) {
+            return;
+        }
         document.cookie = 'visit=true';
         window.location.href = "wizard.html";
-    }
 
     // const ref = localStorage.getItem('visit');
 
@@ -266,35 +267,50 @@ function updateText() {
     }
 }
 
+function switchPanels(e) {
+    console.log(e);
+    console.log(e.target);
+
+}
+
 U.addEvent(document, 'DOMContentLoaded', () => {
-    // variables for index.html
-    g.input = document.querySelector('.input textarea');
-    g.output = document.querySelector('.output textarea');
-    g.key = document.querySelector('.key');
-    g.emojiGrid = document.querySelector('.emojiGrid');
-    g.rightButton = document.querySelector('.rightButton');
-    g.leftButton = document.querySelector('.leftButton');
-    g.weatherButton = document.querySelector('.weatherButton');
-    g.emojisButton = document.querySelector('.emojisButton');
-    g.sendButton = document.querySelector('.sendButton');
-    g.switchButton = document.querySelector('.switchButton');
-    g.weatherTextArea = document.querySelector('.weather');
-    g.gridNodes = g.emojiGrid.childNodes;
-    g.encrypt = true;
+    if (!document.cookie || true) {
+        runWizard();
+        // variables for wizard.html
+        g.slideButtons = document.querySelector('.slideButtons');
 
-    g.counter = 0;
+        // add event listeners
+        for (let i = 0; i < g.slideButtons.length; i++) {
+            U.addEvent(g.slideButtons[i], 'click', switchPanels);
+        }
+    } else {
+        // variables for index.html
+        g.input = document.querySelector('.input textarea');
+        g.output = document.querySelector('.output textarea');
+        g.key = document.querySelector('.key');
+        g.emojiGrid = document.querySelector('.emojiGrid');
+        g.rightButton = document.querySelector('.rightButton');
+        g.leftButton = document.querySelector('.leftButton');
+        g.weatherButton = document.querySelector('.weatherButton');
+        g.emojisButton = document.querySelector('.emojisButton');
+        g.sendButton = document.querySelector('.sendButton');
+        g.switchButton = document.querySelector('.switchButton');
+        g.weatherTextArea = document.querySelector('.weather');
+        g.gridNodes = g.emojiGrid.childNodes;
+        g.encrypt = true;
+        g.counter = 0;
 
-    //add event listeners
-    U.addEvent(g.leftButton, 'click', leftClick);
-    U.addEvent(g.rightButton, 'click', rightClick);
-    U.addEvent(g.weatherButton, 'click', weatherClick);
-    U.addEvent(g.emojisButton, 'click', emojisClick);
-    U.addEvent(g.sendButton, 'click', encryptMessage);
-    U.addEvent(g.switchButton, 'click', switchClick);
-    U.addEvent(g.input, 'keyup', updateText);
-    makeGrid();
+        //add event listeners
+        U.addEvent(g.leftButton, 'click', leftClick);
+        U.addEvent(g.rightButton, 'click', rightClick);
+        U.addEvent(g.weatherButton, 'click', weatherClick);
+        U.addEvent(g.emojisButton, 'click', emojisClick);
+        U.addEvent(g.sendButton, 'click', encryptMessage);
+        U.addEvent(g.switchButton, 'click', switchClick);
+        U.addEvent(g.input, 'keyup', updateText);
 
-    runWizard();
+        makeGrid();
+    }
 
 });
 

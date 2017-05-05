@@ -74,3 +74,31 @@ doSomething(data, status, xhr) {
     //...
 }
 ```
+
+# More Review Questions
+
+1. Given an input element, what event(s) are triggered when the user enters the input (with mouse or keyboard)?
+What about when they leave the input?
+    * Focus and blur (imagine going in an textarea and out)
+
+2. Write a function that given a name of CSS class, returns an array of all elements with that CSS class.
+`<p class="long important">`, `element.className`, `document.getElementsByTagName(*)`
+    ```javascript
+    // assume DOM is loaded
+    function getElementsArray(className) {
+        const docElements = document.getElementsByTagName(*);
+        let classArray = [];
+        Array.from(docElements).forEach(element) {
+            // not cross-browser compatible
+            if (element.classList.contains(className)) {
+                classArray.push(element);
+            }
+
+            // cross-browser
+            for (let i = 0; i < docElements; i++) {
+                let classes = docElements[0]...
+            }
+        });
+        return classArray;
+    }
+    ```

@@ -145,6 +145,11 @@ const emojisToLettersObj = {
     '💪': '!',
     '🙏': '-',
     '💅': ',',
+    '👄': '-',
+    '👅': ':',
+    '👂': '"',
+    '👃': '\'',
+    '👁': ';'
 }
 
 // emojis courtesy of https://github.com/muan/emoji/blob/gh-pages/javascripts/emojilib/simplemap.json

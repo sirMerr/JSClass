@@ -1,5 +1,5 @@
 {
-  "name": "JSClass",
+  "name": "jsclass",
   "version": "1.0.0",
   "description": "2017 Class",
   "main": "index.js",
@@ -8,6 +8,7 @@
   "dependencies": {
     "xo": "^0.17.1"
   },
+  "browserslist": ["last 1 versions", "ie >= 8"],
   "scripts": {
     "test": "xo"
   },
@@ -31,6 +32,7 @@
     }
   },
   "devDependencies": {
+    "eslint-plugin-compat": "^1.0.2",
     "xo": "^0.17.1"
   }
 }

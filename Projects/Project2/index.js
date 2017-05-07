@@ -6,7 +6,50 @@
 
 /* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisToLettersObj*/
 const g = {};
+// var emojiStringToArray = function (str) {
+//   split = str.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/);
+//   arr = [];
+//   for (var i=0; i<split.length; i++) {
+//     char = split[i]
+//     if (char !== "") {
+//       arr.push(char);
+//     }
+//   }
+//   return arr;
+// };
 
+// function showOutput(output) {
+//     var emojisArray = emojiStringToArray(output);
+//     // makes sure output will not repeat
+//     g.output.value = '';
+//     var counter = 0;
+//     var interval = setInterval(typeOutput, 100);
+
+//     function typeOutput() {
+//         g.output.value += emojisArray[counter];
+//         console.log(emojisArray[counter])
+//         counter++;
+//         if (counter >= emojisArray.length) {
+//             clearInterval(interval);
+//         }
+//     }
+
+// }
+function showOutput(output) {
+    // makes sure output will not repeat
+    g.output.value = '';
+    var counter = 0;
+    var interval = setInterval(typeOutput, 100);
+
+    function typeOutput() {
+        g.output.value += output[counter];
+        counter++;
+        if (counter >= output.length) {
+            clearInterval(interval);
+        }
+    }
+
+}
 // NOTE: Need to fix
 /**
  * Encrypts using Caesar cypher which takes every character and moves it by
@@ -20,25 +63,28 @@ function encryptMessage() {
     }
     const message = g.input.value;
     let key = g.key.value;
+    var constantKey;
     if (!key.match(/[a-zA-Z]/)) {
         key = emojis.indexOf(key) + 1;
     }
+    constantKey = key;
     let output = '', character, code, emoji;
 
     if (modernBrowser) {
         for (let i = 0; i < message.length; i++) {
             character = message[i];
-            if (character.match(/[a-zA-Z]/) || character.match(/[. 0-9!?,-:";()\']/)) {
-                code = message.charCodeAt(i);
-                if (code >= 65 && code <= 90) {
-                    character = String.fromCharCode(((code - 65 + key) % 26) + 65);
-                } else if (code >= 97 && code <= 122) {
-                    character = String.fromCharCode(((code - 97 + key) % 26) + 97);
+            if (character.match(/[a-zA-Z. 0-9!?,-:";()\']/)) {
+                var indexChar = emojis.indexOf(lettersToEmojiObj[character]);
+
+                // make sure key will not be bigger than the array length
+                if (indexChar + key >= emojis.length) {
+                    key = indexChar + key - emojis.length;
                 } else {
-                   character;
+                    key += indexChar;
                 }
-                emoji = lettersToEmojiObj[character];
+                emoji = emojis[key];
                 output += emoji;
+                key = constantKey;
             }
         }
     } else {
@@ -60,7 +106,8 @@ function encryptMessage() {
             }
         }
     }
-    g.output.value = output;
+
+    showOutput(output);
 }
 
 /**
@@ -335,7 +382,7 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         U.addEvent(g.startButton, 'click', function (){
             window.location.href = "index.html";
         })
-    } else if (window.location.href.indexOf('index') !== -1){
+    } else if (window.location.href.indexOf('wizard') === -1){
         // variables for index.html
         g.input = document.querySelector('.input textarea');
         g.output = document.querySelector('.output textarea');
@@ -352,7 +399,7 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         g.counter = 0;
 
         makeGrid();
-        //add event listeners
+        // add event listeners
         U.addEvent(g.leftButton, 'click', leftClick);
         U.addEvent(g.rightButton, 'click', rightClick);
         U.addEvent(g.weatherButton, 'click', weatherClick);
@@ -361,6 +408,9 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         U.addEvent(g.switchButton, 'click', switchClick);
         U.addEvent(g.input, 'keyup', updateText);
         U.addEvent(g.input, 'keydown', enterEncrypt);
+
+        // move textarea cursor to end of text
+        
     }
 
 });

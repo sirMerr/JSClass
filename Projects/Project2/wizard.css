@@ -55,6 +55,7 @@ h2, h3 {
     margin: 0 auto;
     font-size: 25px;
     visibility: hidden;
+    display: block;
 }
 .slideButtons button {
     border-radius: 50%;

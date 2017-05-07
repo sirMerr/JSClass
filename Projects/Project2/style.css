@@ -112,6 +112,7 @@ table {
 table * {
     cursor: pointer;
 }
+
 header {
   margin: auto;
   padding: 20px 0;

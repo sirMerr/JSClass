@@ -28,7 +28,12 @@ function parseKey() {
         getWeatherData();
     }
     else if (g.key.value) {
-        encryptMessage();
+        if (g.encrypt) {
+            encryptMessage();
+        }
+        else {
+            decryptMessage();
+        }
     }
 }
 
@@ -278,7 +283,11 @@ function modernWeatherToKey(weatherData) {
     } else if (weatherData.match('wind')) {
         g.key.value = '🎐';
     }
-    encryptMessage();
+    if (g.encrypt) {
+       encryptMessage(); 
+    } else {
+        decryptMessage();
+    }
 }
 
 function oldWeatherToKey(weatherData) {
@@ -295,7 +304,11 @@ function oldWeatherToKey(weatherData) {
     } else if (weatherData.match('wind')) {
         g.key.value = '6';
     }
-    encryptMessage();
+    if (g.encrypt) {
+       encryptMessage(); 
+    } else {
+        decryptMessage();
+    }
 
 }
 
@@ -401,20 +414,24 @@ function emojisClick() {
 function switchClick() {
     if (g.encrypt) {
         U.removeEvent(g.sendButton, 'click', parseKey);
-        U.addEvent(g.sendButton, 'click', decryptMessage);
+        U.addEvent(g.sendButton, 'click', parseKey);
         g.sendButton.innerHTML = 'decrypt';
         g.encrypt = false;
 
         g.input.value = 'Type the message to decipher here (Emojis only in modern browsers)!';
+        g.output.value = '';
+        g.key.value = '';
 
     } else {
-        U.removeEvent(g.sendButton, 'click', decryptMessage);
+        U.removeEvent(g.sendButton, 'click', parseKey);
         U.addEvent(g.sendButton, 'click', parseKey);
         g.sendButton.innerHTML = 'encrypt';
         g.encrypt = true;
 
         g.input.disabled = false;
         g.input.value = 'Type your message to be encrypted here!';
+        g.output.value = '';
+        g.key.value = '';
     }
 }
 

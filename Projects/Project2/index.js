@@ -49,9 +49,9 @@ function encryptMessage() {
 
     // Parse key into number
     if (key.match(/[a-zA-Z]/)) {
-        key = asciiKeys.indexOf[key];
+        key = asciiKeys.indexOf[key] + 1;
     } else {
-        key = emojis.indexOf(key);
+        key = emojis.indexOf(key) + 1;
     }
 
     // for resetting key

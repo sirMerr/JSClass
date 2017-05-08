@@ -88,19 +88,19 @@ function encryptMessage() {
 
             // get code if valid
             if (inputChar.match(/[a-zA-Z. 0-9!?,-:";()&%\']/)) {
-                var indexChar = g.asciiKeys.indexOf(inputChar);
+                var indexChar = g.asciiInput.indexOf(inputChar);
 
                 // make sure key will not be bigger than the
                 // array's length when making the new index
-                if (indexChar + key >= g.asciiKeys.length) {
-                    key = indexChar + key - g.asciiKeys.length;
+                if (indexChar + key >= g.asciiInput.length) {
+                    key = indexChar + key - g.asciiInput.length;
                 } else {
                     key += indexChar;
                 }
 
-                outputChar = g.asciiKeys[key];
+                outputChar = g.asciiInput[key];
 
-                // append shifted emoji to output
+                // append shifted letter to output
                 output += outputChar;
 
                 // reset key
@@ -143,7 +143,6 @@ function decryptMessage() {
 
     // variables
     var input = '', inputChar, outputChar;
-    var message = emojiStringToArray(g.input.value);
     var key = g.key.value;
     var constantKey, valid = false;
     var currentIndex;
@@ -159,6 +158,7 @@ function decryptMessage() {
     constantKey = key;
 
     if (modernBrowser) {
+        var message = emojiStringToArray(g.input.value);
         for (let i = 0; i < message.length; i++) {
             outputChar = message[i];
             for (var j = 0; j < emojis.length; j++) {
@@ -187,6 +187,31 @@ function decryptMessage() {
         showOutput(input);
 
     } else {
+        var message = g.input.value;
+        for (let i = 0; i < message.length; i++) {
+            outputChar = message[i];
+
+            // get code if valid
+            if (outputChar.match(/[a-zA-Z. 0-9!?,-:";()&%\']/)) {
+                var indexChar = g.asciiInput.indexOf(outputChar);
+
+                // make sure key will not be bigger than the
+                // array's length when making the new index
+                if (indexChar - key < 0) {
+                    key = indexChar - key + g.asciiInput.length;
+                } else {
+                    key = indexChar - key;
+                }
+
+                inputChar = g.asciiInput[key];
+
+                // append shifted letter to input
+                input += inputChar;
+
+                // reset key
+                key = constantKey;
+            }
+        }
 
     }
 
@@ -380,7 +405,7 @@ function switchClick() {
         g.sendButton.innerHTML = 'decrypt';
         g.encrypt = false;
 
-        g.input.value = 'Type the message to decipher here!';
+        g.input.value = 'Type the message to decipher here (Emojis only in modern browsers)!';
 
     } else {
         U.removeEvent(g.sendButton, 'click', decryptMessage);

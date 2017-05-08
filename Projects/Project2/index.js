@@ -4,9 +4,14 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-/* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisToLettersObj*/
-const g = {};
+/* global U modernBrowser emojis asciiKeys document vartersToEmojiObj emojisTovartersObj*/
+var g = {};
 
+/**
+ * Display a character every 40 miliseconds for a 
+ * typing effect on the output
+ * @param {String} output
+ */
 function showOutput(output) {
     // makes sure output will not repeat
     g.output.value = '';
@@ -23,6 +28,10 @@ function showOutput(output) {
 
 }
 
+/**
+ * Parses the key and determines if it's to be encrypted
+ * or decrypted
+ */
 function parseKey() {
     if (g.weatherTextArea.style.visibility === 'visible') {
         getWeatherData();
@@ -47,10 +56,10 @@ function parseKey() {
 function encryptMessage() {
 
     // variables
-    let output = '', inputChar, outputChar;
-    const message = g.input.value;
-    let key = g.key.value;
-    var constantKey;
+    var output = '', inputChar, outputChar;
+    var message = g.input.value;
+    var key = g.key.value;
+    var varantKey;
 
     // Parse key into number
     if (key.match(/[a-zA-Z]/)) {
@@ -60,15 +69,15 @@ function encryptMessage() {
     }
 
     // for resetting key
-    constantKey = key;
+    varantKey = key;
 
     if (modernBrowser) {
-        for (let i = 0; i < message.length; i++) {
+        for (var i = 0; i < message.length; i++) {
             inputChar = message[i];
 
             if (inputChar.match(/[a-zA-Z. 0-9!?,-:";()&%\']/)) {
                 // find index of the input character in emoji form
-                var indexChar = emojis.indexOf(lettersToEmojiObj[inputChar]);
+                var indexChar = emojis.indexOf(vartersToEmojiObj[inputChar]);
 
                 // make sure key will not be bigger than the array length,
                 // this key is the new index of the shifted emoji
@@ -84,11 +93,11 @@ function encryptMessage() {
                 output += outputChar;
 
                 // reset key
-                key = constantKey;
+                key = varantKey;
             }
         }
     } else {
-        for (let i = 0; i < message.length; i++) {
+        for (var i = 0; i < message.length; i++) {
             inputChar = message[i];
 
             // get code if valid
@@ -105,11 +114,11 @@ function encryptMessage() {
 
                 outputChar = g.asciiInput[key];
 
-                // append shifted letter to output
+                // append shifted varter to output
                 output += outputChar;
 
                 // reset key
-                key = constantKey;
+                key = varantKey;
             }
         }
     }
@@ -149,7 +158,7 @@ function decryptMessage() {
     // variables
     var input = '', inputChar, outputChar;
     var key = g.key.value;
-    var constantKey, valid = false;
+    var varantKey, valid = false;
     var currentIndex;
 
     // parse key into number
@@ -160,11 +169,11 @@ function decryptMessage() {
     }
 
     // for resetting key
-    constantKey = key;
+    varantKey = key;
 
     if (modernBrowser) {
         var message = emojiStringToArray(g.input.value);
-        for (let i = 0; i < message.length; i++) {
+        for (var i = 0; i < message.length; i++) {
             outputChar = message[i];
             for (var j = 0; j < emojis.length; j++) {
                 if (outputChar === emojis[j]) {
@@ -180,20 +189,20 @@ function decryptMessage() {
                 } else {
                     key = currentIndex - key;
                 }
-                // find equivalent letter
-                inputChar = emojisToLettersObj[emojis[key]];
+                // find equivalent varter
+                inputChar = emojisTovartersObj[emojis[key]];
 
                 // append to input string
                 input += inputChar;
                 // reset key
-                key = constantKey;
+                key = varantKey;
             }
         }
         showOutput(input);
 
     } else {
         var message = g.input.value;
-        for (let i = 0; i < message.length; i++) {
+        for (var i = 0; i < message.length; i++) {
             outputChar = message[i];
 
             // get code if valid
@@ -210,11 +219,11 @@ function decryptMessage() {
 
                 inputChar = g.asciiInput[key];
 
-                // append shifted letter to input
+                // append shifted varter to input
                 input += inputChar;
 
                 // reset key
-                key = constantKey;
+                key = varantKey;
             }
         }
 
@@ -244,11 +253,11 @@ function runWizard() {
  */
 function getWeatherData() {
     var request = new XMLHttpRequest();
-    const city = g.weatherTextArea.value;
+    var city = g.weatherTextArea.value;
     request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&appid=b948605bb52e836030b831890f3e6232', true);
 
     request.onreadystatechange = function() {
-        let weatherData;
+        var weatherData;
         if (this.readyState === 4) {
             if (this.status >= 200 && this.status < 400) {
                 var data = JSON.parse(this.responseText);
@@ -317,12 +326,12 @@ function oldWeatherToKey(weatherData) {
  * @param {Event} e 
  */
 function chooseKey(e) {
-    const evt = e || window.event;
+    var evt = e || window.event;
     g.key.value = evt.target.innerHTML;
 }
 
 function addGridListeners() {
-    for (let i = 0; i < g.gridNodes.length; i++) {
+    for (var i = 0; i < g.gridNodes.length; i++) {
         U.addEvent(g.gridNodes[i], 'click', chooseKey);
     }
 }
@@ -332,10 +341,10 @@ function addGridListeners() {
  * @param {Array} array  emojis or ascii array
  */
 function populateGrid(array) {
-    for (let i = 0; i < 5; i++) {
-            const tr = document.createElement('tr');
-            for (let j = 0; j < 5; j++) {
-                const td = document.createElement('td');
+    for (var i = 0; i < 5; i++) {
+            var tr = document.createElement('tr');
+            for (var j = 0; j < 5; j++) {
+                var td = document.createElement('td');
                 td.innerHTML = array[g.counter];
                 g.emojiGrid.appendChild(tr);
                 tr.appendChild(td);
@@ -368,7 +377,7 @@ function leftClick() {
         else if (g.counter === 75) { g.counter = 25 }
         else if (g.counter === 50) { g.counter = 0}
 
-        for (let i = 0; i < g.gridNodes.length; i++) {
+        for (var i = 0; i < g.gridNodes.length; i++) {
                 g.gridNodes[i].innerHTML = emojis[g.counter];
                 g.counter++;
         }
@@ -383,7 +392,7 @@ function rightClick() {
     if (modernBrowser) {
         if (g.counter >= 75) { g.counter = 0 };
 
-        for (let i = 0; i < g.gridNodes.length; i++) {
+        for (var i = 0; i < g.gridNodes.length; i++) {
             g.gridNodes[i].innerHTML = emojis[g.counter];
             g.counter++;
         }        
@@ -449,17 +458,17 @@ function updateText() {
  * Switches panels for the wizard
  */
 function switchPanels(e) {
-    const evt = e || window.event;
-    const panelNumber = evt.target.getAttribute('data-panel');
-    const panelMessages = 
-        ['A Caesar Cypher shifts letters by a certain amount to form a new message',
+    var evt = e || window.event;
+    var panelNumber = evt.target.getAttribute('data-panel');
+    var panelMessages = 
+        ['A Caesar Cypher shifts varters by a certain amount to form a new message',
          'In modern browsers, we can use emojis to determine the shift key',
          'Or even the weather! It\'s up to your imagination.',
          'Companies use different methods (better than emojis) to encrypt your data' +
          ' to make sure it\'s safe from malicious onlookers.',
          'Try it out yourself!']
-    const keyExamples = modernBrowser ? ['1', '😀', 'Clouds', '?'] : ['1', 'b', 'Clouds', '?'];
-    const outputExamples = modernBrowser ? ['bcd', '😬😁😂', '🌂❄️🎐', '2cf24dba5fb0a...'] : ['bcd', 'cde', 'uvw', '2cf24dba5fb0a...']
+    var keyExamples = modernBrowser ? ['1', '😀', 'Clouds', '?'] : ['1', 'b', 'Clouds', '?'];
+    var outputExamples = modernBrowser ? ['bcd', '😬😁😂', '🌂❄️🎐', '2cf24dba5fb0a...'] : ['bcd', 'cde', 'uvw', '2cf24dba5fb0a...']
 
     if (panelNumber === '4') {
         g.inputExample.style.visibility = 'hidden';
@@ -478,11 +487,11 @@ function switchPanels(e) {
         if (g.panelMessage.textContent) {
             g.panelMessage.textContent = panelMessages[panelNumber];
             g.keyExample.textContent = '→ Key: ' + keyExamples[panelNumber] + ' →';
-            g.outputExampleText.textContent = outputExamples[panelNumber];
+            g.outputExampvarext.textContent = outputExamples[panelNumber];
         } else if (g.panelMessage.innerText) {
             g.panelMessage.innerText = panelMessages[panelNumber];
             g.keyExample.innerText = '→ Key: ' + keyExamples[panelNumber] + ' →';
-            g.outputExampleText.innerText = outputExamples[panelNumber];
+            g.outputExampvarext.innerText = outputExamples[panelNumber];
         }
     }
 
@@ -513,11 +522,11 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         g.keyExample = document.querySelector('span');
         g.inputExample =  document.querySelector('.inputExample');
         g.outputExample =  document.querySelector('.outputExample');
-        g.outputExampleText = document.querySelector('.outputExample h2');
+        g.outputExampvarext = document.querySelector('.outputExample h2');
         g.startButton = document.querySelector('.startButton');
 
         // add event listeners
-        for (let i = 0; i < g.slideButtons.length; i++) {
+        for (var i = 0; i < g.slideButtons.length; i++) {
             U.addEvent(g.slideButtons[i], 'click', switchPanels);
         }
         U.addEvent(g.startButton, 'click', function (){

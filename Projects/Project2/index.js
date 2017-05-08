@@ -11,7 +11,7 @@ function showOutput(output) {
     // makes sure output will not repeat
     g.output.value = '';
     var counter = 0;
-    var interval = setInterval(typeOutput, 100);
+    var interval = setInterval(typeOutput, 40);
 
     function typeOutput() {
         g.output.value += output[counter];
@@ -22,6 +22,16 @@ function showOutput(output) {
     }
 
 }
+
+function parseKey() {
+    if (g.weatherTextArea.style.visibility === 'visible') {
+        getWeatherData();
+    }
+    else if (g.key.value) {
+        encryptMessage();
+    }
+}
+
 // NOTE: Need to fix
 /**
  * Encrypts using Caesar cypher which takes every character and moves it by
@@ -30,10 +40,6 @@ function showOutput(output) {
  * @param {Number} key 
  */
 function encryptMessage() {
-    // key cannot be empty
-    if (!g.key.value) {
-        return;
-    }
 
     // variables
     let output = '', inputChar, outputChar;
@@ -45,7 +51,7 @@ function encryptMessage() {
     if (key.match(/[a-zA-Z]/)) {
         key = asciiKeys.indexOf[key];
     } else {
-        key = emojis.indexOf(key) + 1;
+        key = emojis.indexOf(key);
     }
 
     // for resetting key
@@ -107,6 +113,27 @@ function encryptMessage() {
 }
 
 /**
+ * Makes an array out of a string of emojis
+ * in order to properly handle it
+ * 
+ * @param {String} message    containing emojis only
+ * @return {Array} arr
+ */
+function emojiStringToArray(message) {
+    var split = message.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/);
+    var arr = [];
+    var char;
+
+    for (var i = 0; i < split.length; i++) {
+        char = split[i];
+        if (char !== '') {
+            arr.push(char);
+        }
+    }
+    return arr;
+}
+
+/**
  * Decrypts an encoded message
  * @param {String} message 
  * @param {Number} key 
@@ -115,14 +142,15 @@ function decryptMessage() {
     g.output.value = '';
 
     // variables
-    let output = '', inputChar, outputChar;
-    const message = g.input.value;
-    let key = g.key.value;
-    var constantKey;
+    var input = '', inputChar, outputChar;
+    var message = emojiStringToArray(g.input.value);
+    var key = g.key.value;
+    var constantKey, valid = false;
+    var currentIndex;
 
-    // Parse key into number
+    // parse key into number
     if (key.match(/[a-zA-Z]/)) {
-        key = asciiKeys.indexOf[key];
+        key = asciiKeys.indexOf[key] + 1;
     } else {
         key = emojis.indexOf(key) + 1;
     }
@@ -132,18 +160,35 @@ function decryptMessage() {
 
     if (modernBrowser) {
         for (let i = 0; i < message.length; i++) {
-            inputChar = message[i];
-            if (inputChar.match(/[a-zA-Z. 0-9!?,-:";()&%\']/)) {
-                // to do
+            outputChar = message[i];
+            for (var j = 0; j < emojis.length; j++) {
+                if (outputChar === emojis[j]) {
+                    valid = true;
+                    currentIndex = j;
+                    break;
+                }
+            }
+            if (valid) {
+                // makes sure input index isn't smaller than 0
+                if (currentIndex - key < 0) {
+                    key = currentIndex - key + emojis.length;
+                } else {
+                    key = currentIndex - key;
+                }
+                // find equivalent letter
+                inputChar = emojisToLettersObj[emojis[key]];
+
+                // append to input string
+                input += inputChar;
+                // reset key
+                key = constantKey;
             }
         }
+        showOutput(input);
 
     } else {
 
     }
-
-
-
 
 
 }
@@ -169,7 +214,7 @@ function runWizard() {
  */
 function getWeatherData() {
     var request = new XMLHttpRequest();
-    const city = 'London';
+    const city = g.weatherTextArea.value;
     request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&appid=b948605bb52e836030b831890f3e6232', true);
 
     request.onreadystatechange = function() {
@@ -177,15 +222,56 @@ function getWeatherData() {
         if (this.readyState === 4) {
             if (this.status >= 200 && this.status < 400) {
                 var data = JSON.parse(this.responseText);
-                weatherData = data.weather[0].main;
+                weatherData = data.weather[0].main.toLowerCase();
             } else {
-                weatherData = 'Rain';
+                weatherData = 'rain';
             }
+            if (modernBrowser) { modernWeatherToKey(weatherData)}
+            else { oldWeatherToKey(weatherData)}
         }
     };
 
     request.send();
     request = null;
+}
+
+/**
+ * Picks the emoji key depending on the weather's value
+ * @param {String} weatherData
+ */
+function modernWeatherToKey(weatherData) {
+    if (weatherData.match('rain')) {
+        g.key.value = '☔';
+    } else if (weatherData.match('clouds')) {
+        g.key.value = '⛅';
+    } else if (weatherData.match('sun')) {
+        g.key.value = '🌞';
+    } else if (weatherData.match('clear')) {
+        g.key.value = '🌈';
+    } else if (weatherData.match('snow')) {
+        g.key.value = '❄️';
+    } else if (weatherData.match('wind')) {
+        g.key.value = '🎐';
+    }
+    encryptMessage();
+}
+
+function oldWeatherToKey(weatherData) {
+        if (weatherData.match('rain')) {
+        g.key.value = '1';
+    } else if (weatherData.match('clouds')) {
+        g.key.value = '2';
+    } else if (weatherData.match('sun')) {
+        g.key.value = '3';
+    } else if (weatherData.match('clear')) {
+        g.key.value = '4';
+    } else if (weatherData.match('snow')) {
+        g.key.value = '5';
+    } else if (weatherData.match('wind')) {
+        g.key.value = '6';
+    }
+    encryptMessage();
+
 }
 
 /**
@@ -289,7 +375,7 @@ function emojisClick() {
  */
 function switchClick() {
     if (g.encrypt) {
-        U.removeEvent(g.sendButton, 'click', encryptMessage);
+        U.removeEvent(g.sendButton, 'click', parseKey);
         U.addEvent(g.sendButton, 'click', decryptMessage);
         g.sendButton.innerHTML = 'decrypt';
         g.encrypt = false;
@@ -298,7 +384,7 @@ function switchClick() {
 
     } else {
         U.removeEvent(g.sendButton, 'click', decryptMessage);
-        U.addEvent(g.sendButton, 'click', encryptMessage);
+        U.addEvent(g.sendButton, 'click', parseKey);
         g.sendButton.innerHTML = 'encrypt';
         g.encrypt = true;
 
@@ -313,10 +399,13 @@ function switchClick() {
  */
 function updateText() {
     if (g.key.value !== '') {
-       encryptMessage();
+        encryptMessage();
     }
 }
 
+/**
+ * Switches panels for the wizard
+ */
 function switchPanels(e) {
     const evt = e || window.event;
     const panelNumber = evt.target.getAttribute('data-panel');
@@ -327,10 +416,9 @@ function switchPanels(e) {
          'Companies use different methods (better than emojis) to encrypt your data' +
          ' to make sure it\'s safe from malicious onlookers.',
          'Try it out yourself!']
-    const keyExamples = ['1', '😀', 'Clouds', '?'];
-    const outputExamples = ['bcd', '😬😁😂', '🌂❄️🎐', '2cf24dba5fb0a...']
+    const keyExamples = modernBrowser ? ['1', '😀', 'Clouds', '?'] : ['1', 'b', 'Clouds', '?'];
+    const outputExamples = modernBrowser ? ['bcd', '😬😁😂', '🌂❄️🎐', '2cf24dba5fb0a...'] : ['bcd', 'cde', 'uvw', '2cf24dba5fb0a...']
 
-    // cross browser
     if (panelNumber === '4') {
         g.inputExample.style.visibility = 'hidden';
         g.outputExample.style.visibility = 'hidden';
@@ -344,6 +432,7 @@ function switchPanels(e) {
         g.keyExample.style.visibility = 'visible';
         g.startButton.style.visibility = 'hidden';
     } else {
+        // cross browser
         if (g.panelMessage.textContent) {
             g.panelMessage.textContent = panelMessages[panelNumber];
             g.keyExample.textContent = '→ Key: ' + keyExamples[panelNumber] + ' →';
@@ -357,14 +446,19 @@ function switchPanels(e) {
 
 }
 
+/**
+ * When enter keydown, parse and encrypt
+ * based on grid
+ */
 function enterEncrypt(e) {
     var evt = e || window.event;
     var keyCode = evt.keyCode || evt.which;
     if (keyCode === 13) {
         evt.preventDefault();
-        encryptMessage();
+        parseKey();
     }
 }
+
 
 U.addEvent(document, 'DOMContentLoaded', () => {
     // the second condition is in case the user brute forces his way to the
@@ -380,7 +474,6 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         g.outputExampleText = document.querySelector('.outputExample h2');
         g.startButton = document.querySelector('.startButton');
 
-        console.log('here3')
         // add event listeners
         for (let i = 0; i < g.slideButtons.length; i++) {
             U.addEvent(g.slideButtons[i], 'click', switchPanels);
@@ -400,7 +493,7 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         g.emojisButton = document.querySelector('.emojisButton');
         g.sendButton = document.querySelector('.sendButton');
         g.switchButton = document.querySelector('.switchButton');
-        g.weatherTextArea = document.querySelector('.weather');
+        g.weatherTextArea = document.querySelector('.weather textarea');
         g.encrypt = true;
         g.counter = 0;
 
@@ -410,10 +503,11 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         U.addEvent(g.rightButton, 'click', rightClick);
         U.addEvent(g.weatherButton, 'click', weatherClick);
         U.addEvent(g.emojisButton, 'click', emojisClick);
-        U.addEvent(g.sendButton, 'click', encryptMessage);
+        U.addEvent(g.sendButton, 'click', parseKey);
         U.addEvent(g.switchButton, 'click', switchClick);
         U.addEvent(g.input, 'keyup', updateText);
         U.addEvent(g.input, 'keydown', enterEncrypt);
+        U.addEvent(g.weatherTextArea, 'keydown', enterEncrypt);
 
         // move textarea cursor to end of text
         

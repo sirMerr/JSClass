@@ -1,4 +1,7 @@
 # JSClass
+
+NOTE: This was un-hosted for now because my school is a butt.
+
 This is a full course on JavaScript for programmers and beginners. It is intended to help teach:
 
 1. Client-side programming in a Web environment. 

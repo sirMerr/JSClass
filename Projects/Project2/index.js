@@ -4,7 +4,7 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-/* global U modernBrowser emojis asciiKeys document vartersToEmojiObj emojisTovartersObj*/
+/* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisTolettersObj*/
 var g = {};
 
 /**
@@ -77,7 +77,7 @@ function encryptMessage() {
 
             if (inputChar.match(/[a-zA-Z. 0-9!?,-:";()&%\']/)) {
                 // find index of the input character in emoji form
-                var indexChar = emojis.indexOf(vartersToEmojiObj[inputChar]);
+                var indexChar = emojis.indexOf(lettersToEmojiObj[inputChar]);
 
                 // make sure key will not be bigger than the array length,
                 // this key is the new index of the shifted emoji
@@ -190,7 +190,7 @@ function decryptMessage() {
                     key = currentIndex - key;
                 }
                 // find equivalent varter
-                inputChar = emojisTovartersObj[emojis[key]];
+                inputChar = emojisTolettersObj[emojis[key]];
 
                 // append to input string
                 input += inputChar;
@@ -461,7 +461,7 @@ function switchPanels(e) {
     var evt = e || window.event;
     var panelNumber = evt.target.getAttribute('data-panel');
     var panelMessages = 
-        ['A Caesar Cypher shifts varters by a certain amount to form a new message',
+        ['A Caesar Cypher shifts letters by a certain amount to form a new message',
          'In modern browsers, we can use emojis to determine the shift key',
          'Or even the weather! It\'s up to your imagination.',
          'Companies use different methods (better than emojis) to encrypt your data' +

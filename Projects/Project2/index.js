@@ -380,7 +380,7 @@ function leftClick() {
         else if (g.counter === 50) { g.counter = 0}
 
         for (var i = 0; i < g.gridNodes.length; i++) {
-                g.gridNodes[i].innerHTML = emojis[g.counter];
+                g.gridNodes[i].innerHTML = g.emojis[g.counter];
                 g.counter++;
         }
     }
@@ -395,7 +395,7 @@ function rightClick() {
         if (g.counter >= 75) { g.counter = 0 };
 
         for (var i = 0; i < g.gridNodes.length; i++) {
-            g.gridNodes[i].innerHTML = emojis[g.counter];
+            g.gridNodes[i].innerHTML = g.emojis[g.counter];
             g.counter++;
         }        
     }

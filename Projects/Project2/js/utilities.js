@@ -7,14 +7,14 @@
  * Given by Maja Frydrychowicz to use, with minor change
  * to follow some prefered ESLint rules and removing unused code.
  */
-let modernBrowser = true;
+var modernBrowser = true;
 
 /**
  * IFFE utilities const
  * @type {Object}
  */
-const U = {
-	// Function for creating event listeners:
+var U = {
+	// Function for creating event listeners
 	addEvent(obj, type, fn) {
 		'use strict';
 		if (obj && obj.addEventListener) { // W3C

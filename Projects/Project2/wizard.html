@@ -5,17 +5,22 @@ For 420-423-DW Internet Applications II – Winter 2017
 -->
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Head -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="wizard.css">
-    <script src="keys.js"></script>
-    <script src="utilities.js"></script>
-    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/keys.js"></script>
+    <script src="js/utilities.js"></script>
+    <script src="js/index.js"></script>
     <title>Wizard</title>
 </head>
-<body>
+
+<body class="wizard">
+    <!-- Panels -->
     <div class="panels">
         <h1>Explore Encryption</h1>
         <p>A Caesar Cypher shifts letters by a certain amount to form a new message</p>
@@ -33,7 +38,8 @@ For 420-423-DW Internet Applications II – Winter 2017
             <button data-panel="3"></button>
             <button data-panel="4"></button>
         </div>
-        <button class="startButton">Start</button>
+        <a href="index.html" class="startButton button">Start →</a>
     </div>
 </body>
+
 </html>

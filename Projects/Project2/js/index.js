@@ -4,7 +4,9 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-/* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisToLettersObj*/
+/* global U modernBrowser document */
+
+// global namespace
 var g = {};
 
 /**
@@ -13,11 +15,16 @@ var g = {};
  * @param {String} output
  */
 function showOutput(output) {
+    if (output === '') {
+        g.output.value = '';
+        return;
+    }
     // makes sure output will not repeat
     g.output.value = '';
     var counter = 0;
     var interval = setInterval(typeOutput, 20);
 
+    // types the output one by one
     function typeOutput() {
         g.input.disabled = true;
         g.output.value += output[counter];
@@ -38,6 +45,8 @@ function parseKey() {
     if (g.weatherTextArea.style.visibility === 'visible') {
         getWeatherData();
     }
+
+    // makes sure the key isn't empty
     else if (g.key.value) {
         if (g.encrypt) {
             encryptMessage();
@@ -56,7 +65,6 @@ function parseKey() {
  * @param {Number} key 
  */
 function encryptMessage() {
-
     // variables
     var output = '', inputChar, outputChar;
     var message = g.input.value;
@@ -65,7 +73,7 @@ function encryptMessage() {
 
     // Parse key into number
     if (key.match(/[a-zA-Z]/)) {
-        key = asciiKeys.indexOf[key] + 1;
+        key = g.asciiKeys.indexOf[key] + 1;
     } else {
         key = g.emojis.indexOf(key) + 1;
     }
@@ -124,33 +132,39 @@ function encryptMessage() {
             }
         }
     }
-
     showOutput(output);
 }
 
 /**
- * Makes an array out of a string of emojis
- * in order to properly handle it
+ * Makes an array out of a string of emojis in order to properly handle it
+ * 
+ * NOTE: Seeing as I could not split the string of emojis, nor could I String.prototype.indexOf()
+ * or String.prototype.charAt(). I found that using
+ * message.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/) was the way to go.
+ * Found on:
+ * @link {http://stackoverflow.com/questions/24531751/how-can-i-split-a-string-containing-emoji-into-an-array}
  * 
  * @param {String} message    containing emojis only
- * @return {Array} arr
+ * @return {Array} newArray   containing no invalid chars
  */
 function emojiStringToArray(message) {
-    var split = message.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/);
-    var arr = [];
+    var messageArray = message.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/);
+    var newArray = [];
     var char;
 
-    for (var i = 0; i < split.length; i++) {
-        char = split[i];
+    for (var i = 0; i < messageArray.length; i++) {
+        char = messageArray[i];
         if (char !== '') {
-            arr.push(char);
+            newArray.push(char);
         }
     }
-    return arr;
+    return newArray;
 }
 
 /**
- * Decrypts an encoded message
+ * Decrypts an encoded message. Does the reverse
+ * of the encryptMessage() method.
+ * 
  * @param {String} message 
  * @param {Number} key 
  */
@@ -165,7 +179,7 @@ function decryptMessage() {
 
     // parse key into number
     if (key.match(/[a-zA-Z]/)) {
-        key = asciiKeys.indexOf[key] + 1;
+        key = g.asciiKeys.indexOf[key] + 1;
     } else {
         key = g.emojis.indexOf(key) + 1;
     }
@@ -228,10 +242,7 @@ function decryptMessage() {
                 key = varantKey;
             }
         }
-
     }
-
-
 }
 
 /**
@@ -239,15 +250,15 @@ function decryptMessage() {
  * first time.
  */
 function runWizard() {
-        document.cookie = 'visit=true';
-        if (window.location.href.indexOf('wizard') === -1) {
-            window.location.href = "wizard.html";
-        }
+    document.cookie = 'visit=true';
+    if (window.location.href.indexOf('wizard') === -1) {
+        window.location.href = "wizard.html";
+    }
 }
 
 /**
  * NOTE: The api key should be in a separate config file. As everything is private
- * it should be fine, but changing the key and putting it in a config after is required.
+ * it should be fine, but changing the key and putting it in a config later is required.
  * 
  * Gets the weather information from www.from openweathermap.org
  * 
@@ -256,19 +267,21 @@ function runWizard() {
 function getWeatherData() {
     var request = new XMLHttpRequest();
     var city = g.weatherTextArea.value;
-    request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q='+ city + '&appid=b948605bb52e836030b831890f3e6232', true);
+    request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=b948605bb52e836030b831890f3e6232', true);
 
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         var weatherData;
         if (this.readyState === 4) {
+            // standard responses
             if (this.status >= 200 && this.status < 400) {
                 var data = JSON.parse(this.responseText);
                 weatherData = data.weather[0].main.toLowerCase();
             } else {
+                // default if all goes wrong
                 weatherData = 'rain';
             }
-            if (modernBrowser) { modernWeatherToKey(weatherData)}
-            else { oldWeatherToKey(weatherData)}
+            if (modernBrowser) { modernWeatherToKey(weatherData) }
+            else { oldWeatherToKey(weatherData) }
         }
     };
 
@@ -278,6 +291,7 @@ function getWeatherData() {
 
 /**
  * Picks the emoji key depending on the weather's value
+ * 
  * @param {String} weatherData
  */
 function modernWeatherToKey(weatherData) {
@@ -295,14 +309,20 @@ function modernWeatherToKey(weatherData) {
         g.key.value = '🎐';
     }
     if (g.encrypt) {
-       encryptMessage(); 
+        encryptMessage();
     } else {
         decryptMessage();
     }
 }
 
+/**
+ * Chooses a number depending on the weather
+ * data and encrypts or decrypts the mssage
+ * 
+ * @param {String} weatherData
+ */
 function oldWeatherToKey(weatherData) {
-        if (weatherData.match('rain')) {
+    if (weatherData.match('rain')) {
         g.key.value = '1';
     } else if (weatherData.match('clouds')) {
         g.key.value = '2';
@@ -316,7 +336,7 @@ function oldWeatherToKey(weatherData) {
         g.key.value = '6';
     }
     if (g.encrypt) {
-       encryptMessage(); 
+        encryptMessage();
     } else {
         decryptMessage();
     }
@@ -332,11 +352,15 @@ function chooseKey(e) {
     g.key.value = evt.target.innerHTML;
 }
 
+/**
+ * Adds click events to each grid td
+ */
 function addGridListeners() {
     for (var i = 0; i < g.gridNodes.length; i++) {
         U.addEvent(g.gridNodes[i], 'click', chooseKey);
     }
 }
+
 /**
  * Populates grid in a 5x5 manner using either
  * the emojis array or the asciiKeys array (keys.js)
@@ -344,16 +368,17 @@ function addGridListeners() {
  */
 function populateGrid(array) {
     for (var i = 0; i < 5; i++) {
-            var tr = document.createElement('tr');
-            for (var j = 0; j < 5; j++) {
-                var td = document.createElement('td');
-                td.innerHTML = array[g.counter];
-                g.emojiGrid.appendChild(tr);
-                tr.appendChild(td);
-                g.counter++;
-            }
+        var tr = document.createElement('tr');
+        for (var j = 0; j < 5; j++) {
+            var td = document.createElement('td');
+            td.innerHTML = array[g.counter];
+            g.emojiGrid.appendChild(tr);
+            tr.appendChild(td);
+            g.counter++;
         }
+    }
 }
+
 /**
  * Populates the grid depending on if the user
  * uses an old browser or not. If they use a modern
@@ -375,13 +400,13 @@ function makeGrid() {
  */
 function leftClick() {
     if (modernBrowser) {
-        if (g.counter === 25) { g.counter = 50 }
-        else if (g.counter === 75) { g.counter = 25 }
-        else if (g.counter === 50) { g.counter = 0}
+        if (g.counter === 25) { g.counter = 50; }
+        else if (g.counter === 75) { g.counter = 25; }
+        else if (g.counter === 50) { g.counter = 0; }
 
         for (var i = 0; i < g.gridNodes.length; i++) {
-                g.gridNodes[i].innerHTML = g.emojis[g.counter];
-                g.counter++;
+            g.gridNodes[i].innerHTML = g.emojis[g.counter];
+            g.counter++;
         }
     }
 }
@@ -392,12 +417,12 @@ function leftClick() {
  */
 function rightClick() {
     if (modernBrowser) {
-        if (g.counter >= 75) { g.counter = 0 };
+        if (g.counter >= 75) { g.counter = 0; };
 
         for (var i = 0; i < g.gridNodes.length; i++) {
             g.gridNodes[i].innerHTML = g.emojis[g.counter];
             g.counter++;
-        }        
+        }
     }
 }
 
@@ -406,8 +431,8 @@ function rightClick() {
  */
 function weatherClick() {
     g.weatherTextArea.style.visibility = 'visible';
-    g.weatherButton.style.backgroundColor = '#b8b8b8';
-    g.emojisButton.style.backgroundColor = '#f0f0f0';
+    g.weatherButton.style.backgroundColor = 'black';
+    g.emojisButton.style.backgroundColor = 'darkgrey';
 }
 
 /**
@@ -415,12 +440,13 @@ function weatherClick() {
  */
 function emojisClick() {
     g.weatherTextArea.style.visibility = 'hidden';
-    g.emojisButton.style.backgroundColor = '#b8b8b8';
-    g.weatherButton.style.backgroundColor = '#f0f0f0';
+    g.emojisButton.style.backgroundColor = 'black';
+    g.weatherButton.style.backgroundColor = 'darkgrey';
 }
 
 /**
  * Switches between encryption and decryption mode
+ * and resets textarea values
  */
 function switchClick() {
     if (g.encrypt) {
@@ -451,27 +477,39 @@ function switchClick() {
  * what was typed in the input field
  */
 function updateText() {
-    if (g.key.value !== '') {
-        parseKey();
+    if (g.key.value === '') {
+        return;
     }
+
+    parseKey();
 }
 
 /**
  * Switches panels for the wizard
+ * 
+ * @param {Event} e
  */
 function switchPanels(e) {
     var evt = e || window.event;
-    var panelNumber = evt.target.getAttribute('data-panel');
-    var panelMessages = 
-        ['A Caesar Cypher shifts letters by a certain amount to form a new message',
-         'In modern browsers, we can use emojis to determine the shift key',
-         'Or even the weather! It\'s up to your imagination.',
-         'Companies use different methods (better than emojis) to encrypt your data' +
-         ' to make sure it\'s safe from malicious onlookers.',
-         'Try it out yourself!']
-    var keyExamples = modernBrowser ? ['1', '😀', 'Clouds', '?'] : ['1', 'b', 'Clouds', '?'];
-    var outputExamples = modernBrowser ? ['bcd', '😬😁😂', '🌂❄️🎐', '2cf24dba5fb0a...'] : ['bcd', 'cde', 'uvw', '2cf24dba5fb0a...']
 
+    // data-panel is a number from 0 to 4
+    var panelNumber = evt.target.getAttribute('data-panel');
+
+    // panel messages to switch between
+    var panelMessages =
+        ['A Caesar Cypher shifts letters by a certain amount to form a new message',
+            'In modern browsers, we can use emojis to determine the shift key',
+            'Or even the weather! It\'s up to your imagination.',
+            'Companies use different methods (better than emojis) to encrypt your data' +
+            ' to make sure it\'s safe from malicious onlookers.',
+            'Try it out yourself!'];
+    
+    // assigns a different array depending on the browser
+    var keyExamples = modernBrowser ? ['1', '😀', 'Clouds', '?'] : ['1', 'b', 'Clouds', '?'];
+    var outputExamples = modernBrowser ? ['bcd', '😬😁😂', '🌂❄️🎐', '2cf24dba5fb0a...'] : ['bcd', 'cde', 'uvw', '2cf24dba5fb0a...'];
+
+    // the last panel will show the button
+    // leading to index.html
     if (panelNumber === '4') {
         g.inputExample.style.visibility = 'hidden';
         g.outputExample.style.visibility = 'hidden';
@@ -506,6 +544,8 @@ function switchPanels(e) {
 function enterEncrypt(e) {
     var evt = e || window.event;
     var keyCode = evt.keyCode || evt.which;
+
+    // only parse on enter key
     if (keyCode === 13) {
         evt.preventDefault();
         parseKey();
@@ -513,17 +553,17 @@ function enterEncrypt(e) {
 }
 
 
-U.addEvent(document, 'DOMContentLoaded', () => {
-    // the second condition is in case the user brute forces his way to the
-    // wizard page (mainly for testing purposes)
+U.addEvent(document, 'DOMContentLoaded', function () {
+    // if the cookie doesn't exist or the user is deliberately
+    // on the wizard page
     if (!document.cookie || window.location.href.indexOf('wizard') !== -1) {
         runWizard();
         // variables for wizard.html
         g.slideButtons = document.querySelectorAll('.slideButtons button');
         g.panelMessage = document.querySelector('p');
         g.keyExample = document.querySelector('span');
-        g.inputExample =  document.querySelector('.inputExample');
-        g.outputExample =  document.querySelector('.outputExample');
+        g.inputExample = document.querySelector('.inputExample');
+        g.outputExample = document.querySelector('.outputExample');
         g.outputExampvarext = document.querySelector('.outputExample h2');
         g.startButton = document.querySelector('.startButton');
 
@@ -531,10 +571,10 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         for (var i = 0; i < g.slideButtons.length; i++) {
             U.addEvent(g.slideButtons[i], 'click', switchPanels);
         }
-        U.addEvent(g.startButton, 'click', function (){
+        U.addEvent(g.startButton, 'click', function () {
             window.location.href = "index.html";
-        })
-    } else if (window.location.href.indexOf('wizard') === -1){
+        });
+    } else if (window.location.href.indexOf('wizard') === -1) {
         // variables for index.html
         g.input = document.querySelector('.input textarea');
         g.output = document.querySelector('.output textarea');
@@ -550,7 +590,9 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         g.encrypt = true;
         g.counter = 0;
 
+        // fill a 5x5 grid
         makeGrid();
+
         // add event listeners
         U.addEvent(g.leftButton, 'click', leftClick);
         U.addEvent(g.rightButton, 'click', rightClick);
@@ -562,8 +604,6 @@ U.addEvent(document, 'DOMContentLoaded', () => {
         U.addEvent(g.input, 'keydown', enterEncrypt);
         U.addEvent(g.weatherTextArea, 'keydown', enterEncrypt);
 
-        // move textarea cursor to end of text
-        
     }
 
 });

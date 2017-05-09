@@ -5,16 +5,18 @@ For 420-423-DW Internet Applications II – Winter 2017
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <!-- Head -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="utilities.js"></script>
-    <script src="index.js"></script>
-    <script src="keys.js"></script>
+    <script src="js/utilities.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/keys.js"></script>
     <noscript>
-        <div style="border: 1px solid; margin: 10px; padding: 10px">
+        <div style="border: 1px solid; margin: 7px; padding: 7px">
             <span style="color:red">Please enable JavaScript and refresh :)</span>
         </div>
     </noscript>
@@ -23,40 +25,47 @@ For 420-423-DW Internet Applications II – Winter 2017
 </head>
 
 <body class="index">
+
     <!-- Header -->
     <div class="header">
-	    <span class="banner banner-first">
+        <span class="banner banner-first">
             <h2>Caesar Cypher 101</h2>
             <div class="outline"></div>
         </span>
     </div>
+
     <!-- Links -->
     <div class="links">
         <a href="about.html">About</a>
-        <a href="about.html">Wizard</a>
+        <a href="wizard.html">Wizard</a>
     </div>
+
     <!-- Encryption area -->
     <div class="encryption">
         <!-- Input -->
         <div class="input">
-           <textarea name="input" id="" cols="30" rows="10" autofocus>Type your message to be encrypted here!</textarea> 
+            <textarea name="input" id="" cols="30" rows="10" autofocus>Type your message to be encrypted here!</textarea>
         </div>
         <div class="send">
             <textarea class="key" name="key" disabled></textarea>
-            <button class="sendButton">encrypt</button>
-            <button class="switchButton">switch</button>
+            <button class="small-button sendButton">encrypt</button>
+            <button class="small-button switchButton">switch</button>
         </div>
+
         <!-- Output -->
         <aside class="output">
             <textarea name="output" id="" cols="30" rows="10" disabled></textarea>
         </aside>
     </div>
+
     <!-- Keys grid -->
     <div class="lower-keys">
+        <!-- Tabs -->
         <nav>
-            <button class="emojisButton">Keys</button>
-            <button class="weatherButton">Weather</button>
+            <button class="small-button emojisButton">Keys</button>
+            <button class="small-button weatherButton">Weather</button>
         </nav>
+        <!-- Grid -->
         <div class="gridWrapper">
             <table class="grid">
                 <tbody class="emojiGrid"></tbody>
@@ -65,10 +74,13 @@ For 420-423-DW Internet Applications II – Winter 2017
                 <textarea name="city" id="" cols="30" rows="10">London</textarea>
             </div>
         </div>
+
+        <!-- Arrows -->
         <nav class="arrows">
-            <button class="leftButton">←</button>
-            <button class="rightButton">→</button>
+            <button class="small-button leftButton">←</button>
+            <button class="small-button rightButton">→</button>
         </nav>
     </div>
 </body>
+
 </html>

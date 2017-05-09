@@ -2,13 +2,18 @@
  * Assignment #2
  * @author Tiffany Le-Nguyen
  * For 420-423-DW Internet Applications II – Winter 2017
+ * 
+ * NOTE: I've left box-shadows and transforms because they make everything so much prettier 😊
+ * In IE8-, it  simply have less depth
  */
 * {
     box-sizing: border-box;
 }
+
  body {
     margin: 0;
     padding: 0;
+	/* www.heropatterns.com */
     background-color: #f6f6f6;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23cecece' fill-opacity='0.4'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
  }
@@ -46,14 +51,13 @@ h2 {
 }
 
 .banner-second h2 {
-    font-size: 4.7rem;
+    font-size: 1em;
 }
 
 
 span {
-    font-size: 4rem;
+    font-size: 4em;
     font-family: 'keepcalm';
-    text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
     color: white;
     display: inline-block;
 }
@@ -63,27 +67,37 @@ span h2 {
 }
 
 .tagline {
-    font-size: 1.5rem;
+    font-size: 1.5em;
     font-family: 'keepcalm';
 }
 
 .button {
     display: inline-block;
-    font-size: 1.7rem;
+    font-size: 1.7em;
     color: white;
     position: relative;
     line-height: 1;
     font-family: 'keepcalm';
     background-color: black;
-    padding: 0.7rem 1rem;
+    padding: 0.5em 0.7em;
     text-decoration: none;
     margin-bottom: 20px;
+}
+
+.small-button {
+    color: white;
+    font-family: 'keepcalm';
+    background-color: black;
+    width: 110px;
+    height: 30px;
+    font-size: 20px;
+    padding: 5px;
 }
 
 .intro {
     display:inline-block;
     background: white;
-    box-shadow: 0 0 0px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 0 0px 2px rgba(0,0,0,0.05);
     padding: 10px;
 }
 
@@ -102,7 +116,7 @@ span h2 {
 
 .secondHalf p {
     font-family: sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.2em;
 }
 
 .secondHalf a {
@@ -111,21 +125,24 @@ span h2 {
 
 .steps {
     position: relative;
-    margin-bottom: 10rem;
+    margin-bottom: 10em;
     overflow: hidden;
     height: 800px;
-    margin-top: 7rem;
+    margin-top: 7em;
 }
 
-.steps:before {
+.outline-third {
     background-color: #f4cb30;
     background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%23ea9e38' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     background-size: 60px;
     height: 100%;
     content: '';
-    width: 102%;
+    width: 105%;
     position: absolute;
-    transform: rotate(-2deg) translateX(-1%) translateY(10%);
+    top: 1%;
+    left: -1%;
+    transform: rotate(-2deg) translateX(-2%) translateY(10%);
+    z-index: -1;
 }
 
 .steps span {
@@ -134,32 +151,33 @@ span h2 {
     align-content: center;
 }
 
-.video {
+.instructions {
     position: absolute;
     width: 90%;
     left: 6%;
     top: 20%;
 }
 
-.video .firstHalf {
+.instructions .firstHalf {
     float: left;
     width: 50%;
 }
 
-.video .secondHalf {
+.instructions .secondHalf {
     float: left;
     width: 50%;
     margin: 0;
 }
 
-.video p {
+.instructions p {
     margin: 0 20px 20px;
     font-size: 20px;
 }
 
-video {
+.instructions img {
     border: 2px solid darkgrey;
     width: 100%;
+    padding: 0;
 }
 
 .aboutme {
@@ -168,9 +186,9 @@ video {
     width: 95%;
     height: 450px;
     background: white;
-    box-shadow: 0 0 0px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 0 0px 2px rgba(0,0,0,0.05);
     padding: 10px;
-    margin-bottom: 10rem;
+    margin-bottom: 10em;
 }
 
 .aboutme img {
@@ -185,7 +203,7 @@ video {
 
 .aboutme p, .aboutme ul {
     font-family: sans-serif;
-    font-size: 20px;
+    font-size: 17.5px;
 }
 
 .tags {
@@ -194,6 +212,7 @@ video {
 }
 .tags li {
     float: left;
+    line-height: 1.5;
 }
 
 .outline {
@@ -211,7 +230,7 @@ video {
     background: #f4cb30;
     display: inline-block;
     height: 25px;
-    padding: 0 20px;
+    padding: 0 10px;
     margin-right: 10px;
     margin-bottom: 10px;
 }
@@ -242,7 +261,6 @@ video {
 
 .links a {
     color: black;
-    text-shadow: 0 0 3px rgba(0,0,0,0.2);
     margin-left: 30px;
 }
 
@@ -293,9 +311,16 @@ video {
     display: inline-block;
 }
 
+
 .send button {
     display: block;
     width: 100%;
+    margin-top: 10px;
+    line-height: 1;
+}
+
+.send button:hover {
+    background-color: orange;
 }
 
 .keysWrapper {
@@ -322,6 +347,7 @@ video {
 .lower-keys {
     width: 80%;
     margin: 0 auto;
+    margin-bottom: 100px;
 }
 .weather {
     position: absolute;
@@ -338,9 +364,15 @@ video {
 }
 
 .arrows {
-    justify-content: space-between;
+    width: 100%;
 }
 
+.leftButton, .rightButton {
+    line-height: 0;
+}
+.rightButton {
+    float: right;
+}
 .emojisButton {
     background-color: #b8b8b8;
 }
@@ -372,22 +404,98 @@ table * {
     cursor: pointer;
 }
 
-header {
-  margin: auto;
-  padding: 20px 0;
-  width: 100%;
-  text-align: center;
-  font-size: 40px;
-  font-family: monospace;
-  font-weight: bold;
-  color: white;
-  background-color: rgba(230,174,143,0.2);
-}
-
 textarea {
     resize: none;
     font-size: 15px;
     padding: 10px;
+}
+
+button {
+    cursor: pointer;
+}
+/* Wizard */
+* {
+    /* Makes width and height take in account border c: */
+    box-sizing: border-box;
+}
+.wizard {
+    background: url('images/weather.png');
+}
+
+.panels {
+    margin: 90px auto;
+    width: 80%;
+    height: 450px;
+    background-color: white;
+    text-align: center;
+    padding: 40px;
+    box-shadow: 2px 2px 5px 2px darkgrey;
+    position: relative;
+    font-size: 27px;
+}
+
+.panels h1 {
+    font-family: 'keepcalm';
+}
+
+.panels p {
+    font-family: sans-serif;
+}
+.slideButtons {
+    position: absolute;
+    bottom: -40px;
+    right: 0;
+}
+.inputExample, .outputExample {
+    width: 30%;
+    margin: 0 auto;
+    border: solid 1px grey;
+    font-family: sans-serif;
+    font-size: 15px;
+
+}
+
+.inputExample {
+    float: left;
+    color: red;
+}
+
+.outputExample {
+    float: right;
+    color: green;
+}
+
+.keyExample {
+    width: 100px;
+    height: 40px;
+}
+
+.panels span {
+    font-family: sans-serif;
+    color: black;
+    font-size: 30px;
+}
+
+.startButton {
+    height: 40px;
+    width: 150px;
+    margin: 0 auto;
+    font-size: 25px;
+    visibility: hidden;
+    display: block;
+}
+.slideButtons button {
+    border-radius: 50%;
+    height: 15px;
+    margin: 10px;
+    border: 1px solid grey;
+    background-color: silver;
+    float: left;
+}
+
+.slideButtons button:focus {
+    background-color: darkcyan;
+    outline: none;
 }
 
 /* Fonts */

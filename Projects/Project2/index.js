@@ -4,7 +4,7 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-/* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisTolettersObj*/
+/* global U modernBrowser emojis asciiKeys document lettersToEmojiObj emojisToLettersObj*/
 var g = {};
 
 /**
@@ -16,13 +16,15 @@ function showOutput(output) {
     // makes sure output will not repeat
     g.output.value = '';
     var counter = 0;
-    var interval = setInterval(typeOutput, 40);
+    var interval = setInterval(typeOutput, 20);
 
     function typeOutput() {
+        g.input.disabled = true;
         g.output.value += output[counter];
         counter++;
         if (counter >= output.length) {
             clearInterval(interval);
+            g.input.disabled = false;
         }
     }
 
@@ -65,7 +67,7 @@ function encryptMessage() {
     if (key.match(/[a-zA-Z]/)) {
         key = asciiKeys.indexOf[key] + 1;
     } else {
-        key = emojis.indexOf(key) + 1;
+        key = g.emojis.indexOf(key) + 1;
     }
 
     // for resetting key
@@ -77,17 +79,17 @@ function encryptMessage() {
 
             if (inputChar.match(/[a-zA-Z. 0-9!?,-:";()&%\']/)) {
                 // find index of the input character in emoji form
-                var indexChar = emojis.indexOf(lettersToEmojiObj[inputChar]);
+                var indexChar = g.emojis.indexOf(g.lettersToEmojiObj[inputChar]);
 
                 // make sure key will not be bigger than the array length,
                 // this key is the new index of the shifted emoji
-                if (indexChar + key >= emojis.length) {
-                    key = indexChar + key - emojis.length;
+                if (indexChar + key >= g.emojis.length) {
+                    key = indexChar + key - g.emojis.length;
                 } else {
                     key += indexChar;
                 }
 
-                outputChar = emojis[key];
+                outputChar = g.emojis[key];
 
                 // append shifted emoji to output
                 output += outputChar;
@@ -165,7 +167,7 @@ function decryptMessage() {
     if (key.match(/[a-zA-Z]/)) {
         key = asciiKeys.indexOf[key] + 1;
     } else {
-        key = emojis.indexOf(key) + 1;
+        key = g.emojis.indexOf(key) + 1;
     }
 
     // for resetting key
@@ -175,8 +177,8 @@ function decryptMessage() {
         var message = emojiStringToArray(g.input.value);
         for (var i = 0; i < message.length; i++) {
             outputChar = message[i];
-            for (var j = 0; j < emojis.length; j++) {
-                if (outputChar === emojis[j]) {
+            for (var j = 0; j < g.emojis.length; j++) {
+                if (outputChar === g.emojis[j]) {
                     valid = true;
                     currentIndex = j;
                     break;
@@ -185,12 +187,12 @@ function decryptMessage() {
             if (valid) {
                 // makes sure input index isn't smaller than 0
                 if (currentIndex - key < 0) {
-                    key = currentIndex - key + emojis.length;
+                    key = currentIndex - key + g.emojis.length;
                 } else {
                     key = currentIndex - key;
                 }
                 // find equivalent varter
-                inputChar = emojisTolettersObj[emojis[key]];
+                inputChar = g.emojisToLettersObj[g.emojis[key]];
 
                 // append to input string
                 input += inputChar;
@@ -359,9 +361,9 @@ function populateGrid(array) {
  */
 function makeGrid() {
     if (modernBrowser) {
-        populateGrid(emojis);
+        populateGrid(g.emojis);
     } else {
-        populateGrid(asciiKeys);
+        populateGrid(g.asciiKeys);
     }
     g.gridNodes = document.querySelectorAll('.emojiGrid td');
     addGridListeners();
@@ -450,7 +452,7 @@ function switchClick() {
  */
 function updateText() {
     if (g.key.value !== '') {
-        encryptMessage();
+        parseKey();
     }
 }
 

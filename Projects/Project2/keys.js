@@ -4,7 +4,7 @@
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 
-const lettersToEmojiObj = {
+g.lettersToEmojiObj = {
     'a': '😀',
     'b': '😬',
     'c': '😁',
@@ -83,7 +83,7 @@ const lettersToEmojiObj = {
     '&': '🗣'
 }
 
-const emojisToLettersObj = {
+g.emojisToLettersObj = {
     '😀':'a',
     '😬':'b',
     '😁':'c',
@@ -165,7 +165,7 @@ const emojisToLettersObj = {
 // emojis courtesy of https://github.com/muan/emoji/blob/gh-pages/javascripts/emojilib/simplemap.json
 // and http://xahlee.info/comp/unicode_weather_symbols.html
 // made into an array of emojis using VSCode search + regex
-const emojis = [
+g.emojis = [
     '😀', 
     '😬', 
     '😁', 
@@ -245,7 +245,7 @@ const emojis = [
 ]
 
 // keys for old browsers
-const asciiKeys = [
+g.asciiKeys = [
     'a',
     'b',
     'c',

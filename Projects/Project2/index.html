@@ -24,9 +24,17 @@ For 420-423-DW Internet Applications II – Winter 2017
 
 <body class="index">
     <!-- Header -->
-	<header>Encryption 101</header>
+    <div class="header">
+	    <span class="banner banner-first">
+            <h2>Caesar Cypher 101</h2>
+            <div class="outline"></div>
+        </span>
+    </div>
     <!-- Links -->
-    <a href="about.html">About</a>
+    <div class="links">
+        <a href="about.html">About</a>
+        <a href="about.html">Wizard</a>
+    </div>
     <!-- Encryption area -->
     <div class="encryption">
         <!-- Input -->
@@ -44,26 +52,23 @@ For 420-423-DW Internet Applications II – Winter 2017
         </aside>
     </div>
     <!-- Keys grid -->
-    <div class="keysWrapper">
-        <div class="keys">
-            <!--  -->
-            <nav>
-                <button class="emojisButton">Keys</button>
-                <button class="weatherButton">Weather</button>
-            </nav>
-            <div class="gridWrapper">
-                <table class="grid">
-                    <tbody class="emojiGrid"></tbody>
-                </table>
-                <div class="weather">
-                    <textarea name="city" id="" cols="30" rows="10">London</textarea>
-                </div>
+    <div class="lower-keys">
+        <nav>
+            <button class="emojisButton">Keys</button>
+            <button class="weatherButton">Weather</button>
+        </nav>
+        <div class="gridWrapper">
+            <table class="grid">
+                <tbody class="emojiGrid"></tbody>
+            </table>
+            <div class="weather">
+                <textarea name="city" id="" cols="30" rows="10">London</textarea>
             </div>
-            <nav class="arrows">
-                <button class="leftButton">←</button>
-                <button class="rightButton">→</button>
-            </nav>
         </div>
+        <nav class="arrows">
+            <button class="leftButton">←</button>
+            <button class="rightButton">→</button>
+        </nav>
     </div>
 </body>
 </html>

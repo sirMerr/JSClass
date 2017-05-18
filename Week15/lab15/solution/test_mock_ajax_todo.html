@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Tests</title>
+		<script src="review.js"></script>
+    <script>
+      "use strict";
+      var fake = {
+        request: function(props) {
+          var r = new XMLHttpRequest();
+          Object.defineProperty(r, "status", {
+            set: function(x) {this._status = x;},
+            get: function() {return this._status;}
+          });
+          Object.defineProperty(r, "readyState", {
+            set: function(x) {this._readyState = x;},
+            get: function() {return this._readyState;}
+          });
+          Object.defineProperty(r, "responseText", {
+            set: function(x) {this._responseText = x;},
+            get: function() {return this._responseText;}
+          });
+          r.status = undefined;
+          r.readyState = 0;
+          r.open = function () { console.log("fake request opened")};
+          r.send = function () {
+            var delay = props.delay || 5000;
+            console.log("fake sending");
+            setTimeout(function () {r.dispatchEvent(r.readystatechange)}, delay/5);
+            setTimeout(function () {r.dispatchEvent(r.readystatechange)}, delay*2/5);
+            setTimeout(function () {r.dispatchEvent(r.readystatechange)}, delay*3/5);
+            setTimeout(function () {
+              r.responseText = props.responseText;
+              r.status = props.status;
+              r.readyState = props.finalReadyState;
+              r.dispatchEvent(r.readystatechange);
+            }, delay);
+            if (props.sync) {
+              var timeWastingString = "abc"
+              for (var i = 0; i < 1000000000; i++) {
+                var whatever = timeWastingString + i;
+              }
+              console.log("time wasting done");
+            }
+          };
+          // TODO maybe need to turn this into a setter that adds/removes
+          // the event listener
+          r.onreadystatechange = function () { console.log("fake readyState changed")};
+          r.readystatechange = new Event("fakereadystatechange");
+          r.addEventListener("fakereadystatechange", r.onreadystatechange);
+          return r;
+        }
+      };
+
+      function runtests(module) {
+        var r = fake.request({status: 500, finalReadyState: 4,
+          delay:2000, sync: true});
+        var h = module.getRequestHandler(r, "whatever",
+          function () {
+            console.log("Something good happened");
+          },
+          function () {
+            console.log("Something bad happend");
+          }
+        )
+        h();
+      }
+    </script>
+	</head>
+	<body>
+    <p>To run tests, open the JS console and call runtests(x), where x is
+      the global namespace defined in review.js.</p>
+	</body>
+</html>

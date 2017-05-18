@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Demo of jQuery UI</title>
+  <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+  <style>
+  body {
+		font-family: "Trebuchet MS", sans-serif;
+		margin: 50px;
+	}
+	</style>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  "use strict";
+  $( function() {
+    var from = $("#from").datepicker({
+      defaultDate: "+1w",
+      changeMonth: true
+    });
+    var to = $("#to").datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+    });
+    from.on("change", function() {
+      // `this` is a reference to the element to which
+      // the event handler was attached.
+      // Note that `this` is not necessarily the same as
+      // `event.target` due to bubbling
+      to.datepicker( "option", "minDate", getDate(this));
+    });
+    to.on("change", function() {
+      from.datepicker( "option", "maxDate", getDate(this));
+    });
+
+    function getDate(element) {
+      var date;
+      try {
+        date = $.datepicker.parseDate("mm/dd/yy", element.value);
+      } catch(error) {
+        date = null;
+      }
+      return date;
+    }
+  });
+  </script>
+</head>
+<body>
+  <h1>jQuery UI demo</h1>
+  <p>This html file uses code provided in by the <a href="http://jqueryui.com/download/">jQuery UI
+    Download Builder</a>. From there, I downloaded a zip archive that provided me with js, css,
+    images,and an index.html that shows all the UI widgets included in the library. The css corresponds
+    the "dark" theme I chose on the download page.</p>
+  <p>I removed the files I didn't need for this example (extra CSS, images) and adapted the code they
+    provided in the index.html example (not included here). I also decided to use remote URLs in the
+    script tags for jquery.js and jquery-ui.js, rather than include these files locally.</p>
+  <p>I did not keep the same directory structure as in the downloaded zip file, but to respect the
+    authors' copyright license, I kept LICENSE.txt file and AUTHORS.txt file. There's also a
+    package.json file, which we don't need in this case, but I kept it to show you info about
+    jQuery UI and its dependencies.</p>
+  <h2>Calendar widget demo</h2>
+  <form>
+  <label for="from">From</label>
+  <input type="text" id="from" name="from">
+  <label for="to">to</label>
+  <input type="text" id="to" name="to">
+  </form>
+</body>
+</html>

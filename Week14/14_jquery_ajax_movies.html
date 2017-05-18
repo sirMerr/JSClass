@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<title>Demo of Working with XML and JSON</title>
+  <style>
+    * {padding: 5px; margin: 5px;}
+    body, html, #wrapper { height: 80%;}
+    .error { border-color:red;}
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	  crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- best-practice note: an input should have a label -->
+<p><input type="text" id="query" name="query"
+  placeholder="Enter a movie title"></p>
+<p><button type="button" id="searchButton">Search</button>
+  <span id="message"></span></p>
+<p id="result"></p>
+<script>
+"use strict";
+
+var g = {
+  baseURL: "http://www.omdbapi.com/",
+  // change this to xml to try the other code path
+  type: "json"
+};
+
+function display(text) {
+  if (!text) {
+    return;
+  }
+  // clear the result area
+  if (g.resultArea.text()) {
+    g.resultArea.text("");
+  }
+  // remove any previous timeout
+  if (g.displayTimeout !== undefined) {
+    clearTimeout(g.displayTimeout);
+  }
+  g.messageEl.text(text);
+  g.displayTimeout = setTimeout(function () {
+    g.messageEl.text("");
+  }, 10000);
+}
+
+function search() {
+  // note: think about why we don't need preventDefault
+  g.messageEl.text("");
+  if (!g.queryField.val()) {
+    g.queryField.addClass("error");
+    display("A search query is required.");
+    return;
+  }
+  $.ajax({
+      url: g.baseURL,
+      // query paramters expected by server
+      data: {t: g.queryField.val(), r: g.type},
+      method: "GET",
+      dataType: g.type,
+      statusCode: {
+        404: function () { console.log("Got a 404 from server.")},
+        500: function () { console.log("Got a 500 from server.")},
+        200: function () { console.log("Got a 200 from server.")}
+      }
+    })
+        .done(processResponse)
+        .fail(processError);
+  g.queryField.val("");
+}
+
+function displayMovie(title, year, plot) {
+  g.resultArea.text(title + " (" + year + "): " + plot);
+}
+
+function processError(jxhr, status, error) {
+  display("Error: " + error + " " + jxhr.status);
+}
+
+// function designed based on what we expect to
+// receive from the API at g.baseURL
+// In particular: we expect a JSON string
+// that represents one movie or something like
+// {"Response":"False","Error":"Movie not found!"}
+function processJSON(movieData) {
+  console.log(movieData);
+  try {
+    // The server happens to give the string "True" instead
+    // of the value `true`. Servers don't necessarily
+    // follow best-practices
+    if (movieData.Response === "True") {
+      displayMovie(
+        movieData.Title,
+        movieData.Year,
+        movieData.Plot
+      );
+    } else {
+      display(movieData.Error || "Movie not found.");
+    }
+  } catch (error) {
+    display("Hmm, the server responded with data " +
+        "we can't process.");
+  }
+}
+
+function processXML(xmlDoc) {
+  if (xmlDoc.documentElement.getAttribute("response") === "True") {
+    var movie = xmlDoc.querySelector("movie");
+    displayMovie(movie.getAttribute("title"),
+        movie.getAttribute("year"),
+        movie.getAttribute("plot"),
+    );
+  } else {
+    var error = xmlDoc.querySelector("error");
+    display(error.childNodes[0].nodeValue || "Movie not found.");
+  }
+}
+
+function processResponse(data, status, jxhr) {
+  console.log("Text status: " + status);
+  if (jxhr.responseXML) {
+    processXML(data);
+  } else {
+    processJSON(data);
+  }
+}
+
+function resetFieldStyle() {
+  if (g.queryField.hasClass() && g.queryField.val()) {
+    g.queryField.removeClass();
+  }
+}
+
+$(function () {
+  g.queryField = $("#query");
+  g.resultArea = $("#result");
+  $("#searchButton").click(search);
+  g.queryField.on("keyup", resetFieldStyle);
+  g.messageEl = $("#message");
+});
+
+
+</script>
+</body>
+</html>

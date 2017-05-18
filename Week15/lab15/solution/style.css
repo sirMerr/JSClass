@@ -1,0 +1,25 @@
+body{
+	font-family: "Trebuchet MS", sans-serif;
+  margin-top: 50px;
+}
+
+#welcome {
+  width:100%;
+  text-align:right;
+  height: 20px;
+  position:fixed;
+  top:0;
+  right:0;
+  padding-right: 5px;
+  margin: 0;
+  background-color: #cd1;
+}
+
+#showBtn {
+  width: 80px;
+  padding: 5px;
+}
+
+.invisible {
+  display:none;
+}

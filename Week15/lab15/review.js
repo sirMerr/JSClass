@@ -88,37 +88,133 @@ var g = {
     // welcome greeting (TODO)
     g.guestEl = document.querySelector("#welcome a");
     g.textarea = document.querySelector('input');
+    g.updateCookieObj(document.cookie);
+
+
+    if (document.cookie) {
+      g.guestEl.textContent = g.allCookies['name'];
+    }
     g.guestEl.addEventListener('click', function() {
       g.textarea.classList.remove('invisible');
+      g.textarea.addEventListener('keyup', enterUsername);
       g.guestEl.classList.add('invisible');
     })
+
+    function enterUsername(e) {
+      var keyCode = e.keyCode;
+      if (keyCode === 13) {
+        debugger
+        g.guestEl.classList.remove('invisible');
+        g.guestEl.textContent = g.textarea.value;
+        g.textarea.classList.add('invisible');
+        var date = new Date();
+        date.setDate((date.getDate() + 10));
+        document.cookie="name=" + g.textarea.value + "; expires=" + date;
+      }
+    }
 
 
 
     // ajax queries (TODO)
     g.queryButtons = document.querySelectorAll(".query");
+    g.queryButtons[0].addEventListener('click', function() {
+      g.getRequestHandler('http://jsonplaceholder.typicode.com/comments?postId=4')
+    });
+    g.queryButtons[1].addEventListener('click', function() {
+      g.getRequestHandler('http://jsonplaceholder.typicode.com/unicorns?age=200')
+    });
+    g.queryDisplayArea = document.querySelector('h2');
+
+
+    function goodQueryClick() {
+      debugger
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://jsonplaceholder.typicode.com/comments?postId=4', true);
+      xhr.send(null);
+      xhr.onreadystatechange = logChange
+
+      function logChange() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          g.displayEmails(xhr.responseText);
+        } else {
+          console.log(xhr.statusText)
+        }
+      }
+    }
+
+    function badQueryClick() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://jsonplaceholder.typicode.com/unicorns?age=200', true);
+      xhr.send(null);
+      xhr.onreadystatechange = logChange
+
+      function logChange() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);
+        } else {
+          g.displayError(xhr);
+        }
+      }
+    }
 
 
   },
 
   displayEmails: function (data) {
-    // TODO
+    g.parsedData = JSON.parse(data);
+    for (var i = 0; i < g.parsedData.length; i++) {
+      var li = document.createElement('li');
+      var textNode = document.createTextNode(g.parsedData[i]['email']);
+      li.appendChild(textNode);
+      g.queryDisplayArea.appendChild(li);
+    }
     return;
   },
 
   displayError: function (request) {
-    // TODO
+    var lis = document.querySelectorAll('li');
+
+    for (var i = 0; i < lis.length; i++) {
+      g.queryDisplayArea.removeChild(lis[i]);
+    }
+
+    var li = document.createElement('li');
+    var textNode = document.createTextNode(request.statusText);
+    li.appendChild(textNode);
+    g.queryDisplayArea.appendChild(li);
     return;
   },
 
   getRequestHandler: function(url) {
-    // TODO
+    var r = new XMLHttpRequest();
+
+    r.open('GET', url, true);
+    r.send(null);
+    r.onreadystatechange = displayProperMessage;
+
+    function displayProperMessage() {
+      if (r.readyState === 4 && r.status === 200) {
+        g.displayEmails(r.responseText);
+      } else {
+        g.displayError(r);
+      }
+    }
     return;
   },
 
   updateCookieObj: function () {
     g.allCookies = {};
-    // TODO
+    function cookiesToObj(str) {
+      str = str.split(', ');
+      var result = {};
+      for (var i = 0; i < str.length; i++) {
+          var cur = str[i].split('=');
+          result[cur[0]] = cur[1];
+      }
+      return result;
+    }
+    g.allCookies = cookiesToObj(document.cookie);
+
   }
 
 };

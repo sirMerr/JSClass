@@ -1,6 +1,10 @@
 /**
- * Assignment #1 Part 2
- * @author Tiffany Le-Nguyen
+ * This project was for a school assignment. I was slightly not a good
+ * student and used ES6 stuff and code that isn't cross-browser compatible.
+ * So it's a mix of some code including cross-browser support that at the same time
+ * has snippets that can't be used in older browsers. Who needs 5% 😅
+ *
+ * @author Tiffany Le-Nguyen <https://github.com/sirMerr>
  * For 420-423-DW Internet Applications II – Winter 2017
  */
 

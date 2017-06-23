@@ -33,3 +33,5 @@ Yup! Google might have dropped its support of IE8, BUT WE SURE HAVEN'T! To be fa
 I did very little testing on older browsers, but it should work about the same 😄.
 
 **Some of the content isn't as clean as I'd like it to be right now unfortunately, but it contains solid material and a pretty clear structure.**
+
+... Week 11's commit message is intentional

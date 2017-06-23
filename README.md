@@ -12,7 +12,9 @@ files in action, you can specify the path such as:
 
 https://sirmerr.github.io/JSClass/[Weekx]/[filename]
 
-If you just want to see the projects:
+## TL;DR
+
+lookatdese, dis wa we made
 
 1. [Memory Game](https://github.com/sirMerr/JSClass/blob/master/Projects/Memory%20Game/index.html)
 2. [Caesar Cypher Encryption Demo](https://sirmerr.github.io/JSClass/Projects/Project2/index.html)

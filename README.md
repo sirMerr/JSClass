@@ -1,4 +1,4 @@
-# JSClass
+# HTML, CSS, JavaScript, Emojis, Ajax & Cross-Browser Reliability (my favorite)
 
 This is a full course on JavaScript for programmers and beginners. It is intended to help teach:
 
@@ -25,4 +25,7 @@ Well Week 1 was just a 'Hi y'all welcome back to school!', so there are no notes
 
 Those are the notes I took in class. You're probably better off just reading the PDFs (which I might host back to Markdown *maybe*) since I mostly just took note of small things I wanted to remember or while doing class exercises. There are some good notes that include review questions though so look out for that. 
 
-*** Some of the content isn't as clean as I'd like it to be right now unfortunately, but it contains solid material and a pretty clear structure. ***
+## Cross-Browser Reliability?
+Yup! Google might have dropped its support of IE8, BUT WE SURE HAVEN'T! To be fair, it's pretty interesting to know how to make certain things cross-browser reliable and I'm happy to have that in my information bank. On the other hand, it was oh so slightly annoying.
+
+**Some of the content isn't as clean as I'd like it to be right now unfortunately, but it contains solid material and a pretty clear structure.**

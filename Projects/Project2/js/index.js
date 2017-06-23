@@ -1,7 +1,16 @@
 /**
- * Assignment #2
- * @author Tiffany Le-Nguyen
- * For 420-423-DW Internet Applications II – Winter 2017
+ * This Caesar Cypher Encryption Demo was made for a school project.
+ * The requirements can in found in the folder, but the TL;DR of it is, it had to:
+ *
+ * 1. Encrypt/Decrypt using emojis (modern browsers) and the weather
+ * 2. Be cross-browser compatible (😞 rip es6 and transforms)
+ * 3. Have a wizard & an about page
+ *
+ * NOTE: There is a few small unoptimized code/event delegations here and there
+ * that will probably be resolved over time
+ *
+ * @author Tiffany Le-Nguyen <https://github.com/sirMerr>
+ * @date Winter 2017
  */
 
 /* global U modernBrowser document */
@@ -57,7 +66,6 @@ function parseKey() {
     }
 }
 
-// NOTE: Need to fix
 /**
  * Encrypts using Caesar cypher which takes every character and moves it by
  * a number (key)
@@ -248,26 +256,29 @@ function decryptMessage() {
 /**
  * Runs wizard explaining the encryption if it's the user's
  * first time.
+ * NOTE: This was changed from wizard -> about because the wizard
+ * is not pretty right now :C
  */
 function runWizard() {
     document.cookie = 'visit=true';
-    if (window.location.href.indexOf('wizard') === -1) {
-        window.location.href = "wizard.html";
+    if (window.location.href.indexOf('about') === -1) {
+        window.location.href = "about.html";
     }
 }
 
 /**
- * NOTE: The api key should be in a separate config file. As everything is private
- * it should be fine, but changing the key and putting it in a config later is required.
+ * NOTE: As I have made this project public, I have removed the api key (appid=)
+ * If you want to see how this feature works, feel free to go to www.openweathermap.org,
+ * generate your own api key and replace it here :). 
  * 
- * Gets the weather information from www.from openweathermap.org
+ * Gets the weather information from www.openweathermap.org
  * 
  * @return {String} weather
  */
 function getWeatherData() {
     var request = new XMLHttpRequest();
     var city = g.weatherTextArea.value;
-    request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=b948605bb52e836030b831890f3e6232', true);
+    request.open('GET', 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=', true);
 
     request.onreadystatechange = function () {
         var weatherData;

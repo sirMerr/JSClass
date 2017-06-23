@@ -14,5 +14,15 @@ https://sirmerr.github.io/JSClass/[Weekx]/[filename]
 
 If you just want to see the projects:
 
-1. [Memory Game]()
-2. [Caesar Cypher Encryption Demo]()
+1. [Memory Game](https://github.com/sirMerr/JSClass/blob/master/Projects/Memory%20Game/index.html)
+2. [Caesar Cypher Encryption Demo](https://sirmerr.github.io/JSClass/Projects/Project2/index.html)
+
+## Week 1 😖? Missing Weeks?!
+
+Well Week 1 was just a 'Hi y'all welcome back to school!', so there are no notes. If there there are missing NOTES.MD or something of the like, I either didn't have notes in particular for that week or I was absent.
+
+## NOTES.MD?
+
+Those are the notes I took in class. You're probably better off just reading the PDFs (which I might host back to Markdown *maybe*) since I mostly just took note of small things I wanted to remember or while doing class exercises. There are some good notes that include review questions though so look out for that. 
+
+*** Some of the content isn't as clean as I'd like it to be right now unfortunately, but it contains solid material and a pretty clear structure. ***

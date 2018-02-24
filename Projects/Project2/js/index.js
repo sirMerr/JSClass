@@ -261,9 +261,9 @@ function decryptMessage() {
  */
 function runWizard() {
     document.cookie = 'visit=true';
-    if (window.location.href.indexOf('about') === -1) {
-        window.location.href = "about.html";
-    }
+//     if (window.location.href.indexOf('about') === -1) {
+//         window.location.href = "about.html";
+//     }
 }
 
 /**
